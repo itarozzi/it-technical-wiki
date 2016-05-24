@@ -1,0 +1,60 @@
+# Dokuwiki HOME
+Questa sezione contiene informazioni su come utilizzare al meglio DokuWiki come wiki personale, come sincronizzarlo attraverso GIT e quali plugin utilizzare.
+
+Sarà quindi necessariamente una sezione continuamente aggiornata
+
+
+## Dokuwiki come Personal Wiki
+
+
+## Sincronizzare con GIT
+Per sincronizzare le pagine di questo wiki utilizzo git e il plugin:
+https://www.dokuwiki.org/plugin:gitbacked
+
+Seguendo la documentazione del plugin, ho spostato le directory ''media'' e ''pages'' dentro la nuova directory ''data/gitrepo/wiki''.
+(in debian/ubuntu questi path sono relativi a ''/var/www'').
+
+Ho installato git sul sistema (nel mio caso un docker container) e ho inizializzato un repository git nella directory ''data/gitrepo''.
+
+Ho modificato le impostazione di dokuwiki (''conf/local.php'') per fare in modo che DW utilizzi tali path e ho opportunamente configurato il plugin specificando tali path (vedi doc plugin).
+
+<callout type="warning" icon="true"> ricordarsi di assegnare i permessi a tali path come utente ''www-data''</callout>
+
+Ho creato su github un repository e l'ho impostato come ''remote'' per il repository locale.
+
+Infine, per permettere i commit automatici, ho dovuto modificare il file ''.git/config'' aggiungendo le seguenti linee:
+<file>
+[user]
+        name = Ivan Tarozzi
+        email = itarozzi@gmail.com
+</file>
+
+e modificando l'url del repo remoto inserendo username e password di github:
+
+<file>
+[remote "origin"]
+        url = https://itarozzi:<miapasswd>@github.com/itarozzi/it-technical-wiki.git
+        fetch = +refs/heads/*:refs/remotes/origin/*
+</file>
+
+<callout type="info" icon="true"> siccome ad ogni modifica viene fatto un commit ed un push (se configurato) il sistema diventa piuttosto lento e poco reattivo. Ho quindi disabilitato il push ad ogni commit, ma non mi e' chiaro a questo punto come viene fatto il push</callout>
+
+
+## Tips&Tricks
+Se il link di login non compare, eseguire la configurazione iniziale:
+''localhost:8001/install.php''
+
+## Plugin
+
+  * [[dokuwiki:markdowku]] - Sintassi markdown all'interno delle pagine dokuwiki
+  * [[dokuwiki:bootswrapper]] - Permette di aggiungere elementi bootstrap alle pagine
+
+
+## Templates
+  * Bootstrap3 Template - [[https://github.com/LotarProject/dokuwiki-template-bootstrap3/zipball/master|Install link]]
+
+
+==== Da testare ====
+
+  * https://www.dokuwiki.org/namespace_templates
+  * 

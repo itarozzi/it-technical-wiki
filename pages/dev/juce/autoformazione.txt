@@ -1,0 +1,70 @@
+# JUCE - Autoformazione
+## Introduzione
+Percorso di autoformazione basato sul testo "GETTING STARTED WITH JUCE" acquistato da PackPub.
+
+Il grosso dell'autoformazione verrà portato avanti su host Linux (Debian) ma si cercherà di effettuare anche verifiche parallele su host OSX o Windows.
+
+
+## Installazione
+Si consiglia di usare la versione presente su github (~210MB), invece che quella pacchettizzata o compilata.
+
+Al momento la versione corrente è la v4.2.1
+
+## Juce Demo Application
+La cosa migliore per iniziare e per verificare che l'ambiente sia installato correttamente, è provare a compilare ed eseguire la Demo Application.
+
+Rispetto al libro, il path del progetto demo è ''juce/examples/Demo''
+
+### Compilare in Linux
+<code>
+cd Builds/Linux; make
+<code>
+
+L'eseguibile viene creato in ''.build/''
+
+
+### Compilare in OSX
+  * Aprire con XCODE il progetto in ''./Builds/MacOSX/JuceDemo''
+  * Click sull'icona "Build and Run" per compilare ed eseguire il progetto
+
+
+### Compilare per Android
+ (... da completare)
+
+
+
+
+## Projucer (ex Introjucer)
+Dalla v4.2 Introjucer (descritto nel libro) è stato rimosso e le sue funzionalità sono ora fornite dalla versione Open Source di Projucer.
+
+Projucer è fornito nel pacchetto github di JUCE. La parte closed source (Live-coding) è racchiusa in una DLL e abilitata solo dietro attivazione della licenza commerciale.
+
+Projucer non viene fornito come binario ma occorre compilarlo. I sorgenti sono nel pacchetto JUCE, sotto la directory ''/extras/Projucer/Builds''.
+
+Per compilarlo, riferirsi alle istruzioni descritte per la Demo Application.
+
+----
+La descrizione delle funzionalità di Introjucer del libro sembrano rimanere valide anche riferite a Projucer (v4.2.1).
+
+### Apertura dei progetti di esempio
+
+  * Eseguire Projucer e aprire il file .jucer
+  * accedere al tab ''Config'' per vedere la configurazione di tutti gli elementi dell'applicazione
+  * **Modules:**  elenca i moduli usati e gestisce le eventuali dipendenze tra essi.  Definisce inoltre se copiare i sorgenti dei moduli usati nella directory del progetto  (consigliato per garantire la portabilità dell'albero dei sorgenti)
+  * **Files:** elenca i files sorgenti (.cpp e .h) e i files binati delle risorse (xml, images, audio,...)
+
+### Creare il primo progetto con Projucer
+  * File -> New Project -> GUI Application
+  * Project Name: TestProject001
+  * Files Autogenerate: create a Main.cpp file and a basic Window
+  * Project Folder: ~/software-projects/juce-projects/
+  * Target Platform: Xcode (Mac OSX) + Linux Makefile + Code::Blocks (Linux)
+  * Click su **CREATE**
+
+Nel pannello ''Config'' è presente un bottone "Open on IDE", ma non nella versione Linux !?
+
+<callout type="warning" icon="true">
+La compilazione con Code::Blocks su linux non va a buon fine a causa di errori sugli header dei moduli. Sembra esserci un errore nella creazione del file di progetto di codeblocks.
+
+Per ovviare al problema occorre aggiungere il path ''../../JuceLibraryCode/modules'' nel menu ''Project -> Build Options -> Search Directory -> Compiler (Add)''
+</callout>

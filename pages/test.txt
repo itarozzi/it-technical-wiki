@@ -1,0 +1,16 @@
+====== Pagina di test per provare plugin o sintassi speciali ======
+
+usare questa pagina per sperimentare
+ ok
+<jumbotron>
+===== Hello, world! =====
+
+This is a simple hero unit, a simple jumbotron-style 
+component for calling extra attention to featured
+content or information.
+</jumbotron>
+
+<callout type="warning" icon="true"> ATTENZIONE!!!  test22s132wwwww</callout>
+
+ee
+altra modifica per provare git

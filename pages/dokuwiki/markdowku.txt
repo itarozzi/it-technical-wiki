@@ -1,0 +1,7 @@
+#markdowku
+
+[[https://www.dokuwiki.org/plugin:markdowku]]
+
+Questo plugin permette di utilizzare la sintassi markdown all'interno delle normali pagine wiki.
+
+A differenza di altri plugin di gestione de markdown, non occorre creare specifiche pagine con estensione md, ma è possibile usare la sintassi markdown direttamente nelle pagine standard.

@@ -1,0 +1,14 @@
+#bootswrapper
+[[https://www.dokuwiki.org/plugin:bootswrapper]]
+
+Questo plugin permette di utilizzare elementi bootstrap all'interno delle pagine, se usato con un template Bootstrap.
+
+Per una descrizione completa degli elementi utilizzabili e relativa sintassi consultare [[http://www.lotar.altervista.org/dokuwiki/wiki/plugin/bootswrapper]]
+
+Di seguito gli elementi che ho trovato più interessanti:
+
+  * Callout -  http://www.lotar.altervista.org/dokuwiki/wiki/plugin/bootswrapper/callout
+<callout type="warning" icon="true"> [testo] </callout>
+
+  * Jumbotron - http://www.lotar.altervista.org/dokuwiki/wiki/plugin/bootswrapper/jumbotron
+  * Panel - http://www.lotar.altervista.org/dokuwiki/wiki/plugin/bootswrapper/panel

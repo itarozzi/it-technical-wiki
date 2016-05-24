@@ -1,0 +1,25 @@
+
+====== Sviluppo Software ======
+## Audio & Multimedia & Multiplatform frameworks
+  * [[dev:juce:JUCE Home]]
+  * [[dev:kivy:Kivy Home]]
+  * [[dev:qt:Qt Home]]
+
+
+## WebApps & Mobile
+  * [[dev:webdev:angular2:Angular2 Home]]
+  * [[dev:webdev:ionic:Ionic2 Home]]
+
+
+## Android 
+  * [[dev:android:Android Home]]
+
+
+====== SysAdmin ======
+  * [[sysadmin::Docker Home]]
+  * [[sysadmin::Vagrant Home]]
+  * [[sysadmin::Git Home]]
+
+
+====== Doc Management ======
+[[dokuwiki:dokuwiki_home|Dokuwiki HOME]]
