@@ -1,4 +1,5 @@
-# JUCE - Autoformazione
+# JUCE - Autoformazione: Getting Started With JUCE
+
 ## Introduzione
 Percorso di autoformazione basato sul testo "GETTING STARTED WITH JUCE" acquistato da PackPub.
 

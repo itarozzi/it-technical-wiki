@@ -2,6 +2,8 @@
 
 ## Introduzione
 
+## Documenti e Tutorials
 
-[[dev:juce:autoformazione]]
+
+[[dev:juce:autoformazione|Autoformazione - GETTING STARTED WITH JUCE]]
 
