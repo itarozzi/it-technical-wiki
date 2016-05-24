@@ -48,6 +48,8 @@ Se il link di login non compare, eseguire la configurazione iniziale:
 
   * [[dokuwiki:markdowku]] - Sintassi markdown all'interno delle pagine dokuwiki
   * [[dokuwiki:bootswrapper]] - Permette di aggiungere elementi bootstrap alle pagine
+  * [[https://www.dokuwiki.org/plugin:minimap]] -
+  * [[https://www.dokuwiki.org/plugin:simplenavi]]
 
 
 ## Templates
