@@ -1,0 +1,15 @@
+# Angular2 - Framework  per webapp SPA
+
+## Introduzione
+
+
+## Quick Start
+
+## Documenti e Tutorials
+
+  * [[http://codingjam.it/introduzione-ad-angular-2-parte-1/|Tutorial su CodingJam]]
+  * [[https://www.youtube.com/watch?v=1lBxgACVcrQ|John Papa Video Introduction to A2]]
+  * [[https://www.pluralsight.com/blog/software-development/john-papa-angular2|John Papa resources]]
+  * [[https://egghead.io/series/angular-2-fundamentals|Video corso su egghead.io]]
+  * [[dev:webdev:amgular2:autoformazione-home|Autoformazione su Angular2]]
+

@@ -1,0 +1,106 @@
+# Creare Interfacce Utente (UI) con JUCE
+
+## La classe Component
+La classe Component è la classe base  per disegnare lo schermo e intercettare le interazioni con l'utente (mouse, tasti, ...).
+
+Dalla classe Componente sono derivate altre classi, incluse nella distribuzione di JUCE, con le quali vengono realizzati tutta una serie di componenti grafici per la creazione di UI (vedi app DEMO).
+
+## Il sistema di coordinate
+JUCE utilizza un sistema di coordinate gerarchico a partire dallo schermo del computer:gloabal (0,0) sull'angolo superiore sinistro.
+
+Ogni finestra ha un singolo ''parent'' e può avere uno o più ''child''.
+
+Ogni sub-componente ha un suo sistema di coordinate locali con (0,0) posto nell'angolo superiore sinistro del componente stesso.
+Inoltre ogni componente ha un posizionamento (x,y) rispetto al componente ''parent''. Il posizionamento corrisponde all'angolo superiore sinistro del componente, esclusa la barra del titolo.
+
+
+## Componente base
+Quando Projucer crea una **GUI Application** predispone un file ''Main.cpp'' (l'entry point dell'applicazione) e un ''MainComponent.cpp'' che definisce il componente parent principale, ovvero la finestra principale dell'app, attraverso la classe ''MainContentComponent''.
+
+Un'istaza di tale classe viene create nel Main e da qui prende vita l'applicazione.  A sua volta la classe ''MainContentComponent'' dichiarerà una serie di sub-componenti che andranno a costituire gli elementi della GUI.
+
+Nel file ''main.cpp'' è possibile assegnare le caratteristiche della finestra principale.
+
+## Componente "figlio"
+La creazione di ogni child component richiede i 5 seguenti step
+  - Creare una variabile membro dove salvare l'istanza del nuovo componente
+  - Allocare il nuovo componennte (staticamente o dinamicamente)
+  - aggiungere il  componente come child del parent component
+  - rendere il componente visibile
+  - impostare posizione e dimensione del child componente
+
+Conviene eseguire lo Step#5 all'interno della funzione ''resized()'' del parent, che viene chiamata ogni volta che il parent viene ridimensionato (da utente o chiamando la prima ''setSize()''.
+
+In questo modo è anche possibile sfruttare le funzioni ''getWidth()'' e '' getHeight()'' per effettuare posizionamenti e dimensionamenti dinamici.
+
+Posso usare ''setBounds(x, y, width, height)'' per posizionamenti assoluti o ''setBoundsRelative(%x, %y, %width, %height)'' per quelli relativi.
+
+
+## Rispondere alle interazioni e ai cambiamenti
+JUCE utilizza il pattern **observer** per notificare al codice quando un elemento è stato cliccato o qualcosa è cambiato.
+
+**listener**: diversi componenti hanno una classe ''Listener'' per ragire a eventi e cambiamenti
+Se quindi si dichiara un Listener nell'header file di una classe è poi possibile implementare le funzioni che tali listener definiscono, in modo da eseguire codice su eventi (es ''buttonClicked()'', ''sliderValueChanged()'' .... vedere le API)
+
+Inoltre, nel corpo della classe, è necessario aggiungere il listener per il subcomponent attraverso la chiamata a ''addListener()''.
+
+**broadcasters**:
+
+
+Riassumendo, gli step per aggiungere i Listener sono i seguenti:
+  - Aggiungere i Listener delle classi basi da gestire al file ''MainComponent.h'' (es. ''Button::Listener'')
+  - Aggiungere le funzioni implementate nel Listener nella sezione ''public'' del file  ''MainComponent.h'' (es. ''void buttonClicked(Button*)''
+  - aggiungere i listener nel costruttore della classe MainComponentClass (es. ''button1.addListener(this)'')
+  - Implementare le funzioni dei listener nella classe, nel file ''MainComponent.cpp''. All'interno di tali funzioni gestire la risposta agli eventi.
+
+
+<callout type="info" icon="true">E' buona norma, all'interno della funzione del Listener, testare il valore del caller in modo da evitare errori ed essere sicuri di lavorare sempre su strutture dati allocate.
+
+Esempio: 
+<code>
+void MainContentComponent::buttonClicked(Button* button){
+    if (&button1 == button) {
+        ... do something
+    }
+
+}
+</code>
+
+Rispettare l'ordine specificato nel test, per evitare errori nel caso si sbagli a digitare = al posto di ==</callout>
+
+## Colori
+JUCE utilizza due classi per assegnare i colori ai componenti: ''Colour'' e ''Colours''.
+
+La classe ''Colour'' contiene un colore a 32-bit con 8-bit alpha, red, green, blue (ARGB)
+
+Può essere assegnata utilizzando un valore esadecimale che rappresenta il valore ARGB o in altri modi.
+
+La classe ''Colours'' è una collezione statica di istanze di ''Colour'', i cui nomi richiamano lo standard HTML (es. Colours::red).
+
+Ogni componente ha un metodo ''setColour()'' che tipicamente ha 2 argomenti:
+  * ID dell'elemento da colorare (es. ''Label::backgroundColorId'' o ''Label::textColorId''
+  * il colore da assegnare
+
+### La classe LookAndFeels
+Volendo assegnare uno schema colori per diversi componenti, senza assegnarli uno ad uno, è possibile utilizzare la classe LookAndFeel che permette di assegnare una serie di colori per i rispettivi ID.  
+
+A questo punto basta cambiare il LookAndFeel di un componente per applicare lo stesso stile a tutti i componenti in esso contenuti.
+
+Ci sono 2 modi per assegnare i valori della classe LookAndFeel:
+
+**metodo 1:** nella funzione''initialise()'' dentro ''main.cpp''
+
+<code>
+LookAndFeel lnf = LookAndFeel::getDefaultLookAndFeel();
+lnf.setColour(Slider::thumbColourId, Colours::green);
+</code>
+
+
+**metodo 2:** ereditare dalla classe LookAndFeel un'altra classe, assegnarne le caratteristiche, e poi assegnare tale classe ad un componente
+
+<code>
+//... nel costruttore del componente
+setLookAndFeel(&altLookAndFeel);
+</code>
+
+É importante notare che la classe LookAndFeel non serve solo per assegnare i colori, ma anche altre caratteristiche dei componenti
