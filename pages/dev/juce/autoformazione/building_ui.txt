@@ -1,4 +1,4 @@
-# Creare Interfacce Utente (UI) con JUCE
+# Capitolo 2: Creare Interfacce Utente (UI) con JUCE
 
 ## La classe Component
 La classe Component è la classe base  per disegnare lo schermo e intercettare le interazioni con l'utente (mouse, tasti, ...).
@@ -81,7 +81,7 @@ Ogni componente ha un metodo ''setColour()'' che tipicamente ha 2 argomenti:
   * ID dell'elemento da colorare (es. ''Label::backgroundColorId'' o ''Label::textColorId''
   * il colore da assegnare
 
-### La classe LookAndFeels
+### La classe LookAndFeel
 Volendo assegnare uno schema colori per diversi componenti, senza assegnarli uno ad uno, è possibile utilizzare la classe LookAndFeel che permette di assegnare una serie di colori per i rispettivi ID.  
 
 A questo punto basta cambiare il LookAndFeel di un componente per applicare lo stesso stile a tutti i componenti in esso contenuti.
@@ -104,3 +104,63 @@ setLookAndFeel(&altLookAndFeel);
 </code>
 
 É importante notare che la classe LookAndFeel non serve solo per assegnare i colori, ma anche altre caratteristiche dei componenti
+
+## Disegnare Componenti Custom
+Nel caso in cui i componenti standard non siano sufficicienti o adeguati, JUCE eprmette di disegnare componenti custom eseguendo l'override del metodo ''Component::paint()''
+
+Solitamente la creazione di un nuovo progetto di tipo "GUI Application" attraverso Projucer genera già il codice per l'override della ''paint()''. All'interno di questa è quindi possibile inserire codice per disegnare i propri oggetti.  La funzione viene richiamata anche al resize del componente padre, quindi è possibile (e consigliato) utilizzare posizionamenti e dimensionamenti relativi o che tengano conto delle dimensioni del parent.
+
+## Intercettare le attività del mouse
+La classe componente ha 6 callback per intercettare le attività del mouse
+  * mouseEnter()
+  * mouseMove()
+  * mouseDown()
+  * mouseDrag()
+  * mouseUp()
+  * mouseExit()
+
+In tutti questi callback viene passato un riferimento ad un oggetto ''MouseEvent'' che contiene tutte le caratteristiche legate a tale evento.
+
+
+## Usare Projucer per creare GUI complesse
+Projucer permette di creare delle classi di componenti custom e di creare, posizionare e assegnare le proprietà di oggetti all'interno di essi.
+
+Questo può rivelarsi utile nel disegnare GUI complesse o anche solo per esplorare tutte le caratteristiche dei componenti base di JUCE.
+
+Dal tab //File// di Projucer selezionare **Add New GUI component** per creare una classe custom.
+
+Selezionando poi il file .cpp della classe, è possibile creare e posizionare componenti attraverso il tab **Subcomponent**.
+
+Selezionando un componente nel GUI Editor è possibile assegnarne le proprietà attraverso il pannello sulla destra.
+
+
+
+Una volta salvato il progetto, è possibile utilizzare il nuovo custom component all'interno del MainComponent:
+  * Creare un membro privato della classe ''MainContentComponent'' del tipo della classe del Custom Component
+  * Includere nell'header di ''MainContentComponent'' l'header della classe del Custom Component
+  * Nel file ''MainComponent.cpp'', nel costruttore della classe (o dove necessario) rendere visibile il Custom Component 
+
+<code>
+.h
+#include CustomCompnent.h
+Class MainContentComponent : public Component 
+{
+....
+private:
+  CustomComponent custom;
+}
+
+.cpp
+MainContentComponent::MainContentComponent() {
+  addAndMakeVisible (&custom);
+  setSize (.....)
+}
+</code>
+
+
+
+
+<callout type="warning" icon="true">Le modifiche tramite IDE dei Custom Components creati con il GUI Editor di Projucer possono essere perse (sovrascritte) ricaricando il progetto in Projucer e apportando modifiche e introducento nuovi componenti.
+
+Per evitare questo, limitare le modifiche alle aree identificate dalle tag [] che Projucer introduce nei files. Tali aree non verranno sovrascritte da Projucer ai successivi salvataggi.
+</callout>

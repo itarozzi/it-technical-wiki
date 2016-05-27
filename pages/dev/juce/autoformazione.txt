@@ -71,4 +71,4 @@ Per ovviare al problema occorre aggiungere il path ''../../JuceLibraryCode/modul
 
 
 ## Altri argomenti
-<minimap suppress="autoformazione">
+{{nslist>dev:juce:autoformazione nodate}}
