@@ -1,0 +1,40 @@
+# Embedded SBC with AllWinner SoC
+
+## Introduzione
+Questa sezione contiene informazioni riguardanti sistemi embedded (Linux e Android) su SBC basate su SoC AllWinner (BananaPi, Cubieboard, ...).
+
+  * [[embedded:BPI-M2|BananaPI M2 - Home]] - BananaPI M2 AllWinner A31s
+  * [[embedded:BPI-M3|BananaPI M3 - Home]] - BananaPI M3 AllWinner A83T
+
+
+## Generic AllWinner 
+### script.bin and FEX File fo A10/A20 SoC
+**script.bin** is a binary configuration file used by AllWinner SOC core driver or LiveSuit. And it contains the information that how to set the peripherals, port, and I/O pins of A10/A20 target board.
+Because we can not compile the script.bin file directly, we have to modify the corresponding text file whose format is FEX. We can use the **sunxi-tools** to change binary file into text file or change it back.
+
+Il file **script.bin** da cui partire per eventuali modifiche lo si può ottenere in vari modi:
+  * dalla partizione di un sistema linux per SBC AllWinner
+  * dai sorgenti e BPS forniti dai vari produttori
+  * da un sistema Android funzionante, tramite ADB
+
+<code>
+$ adb shell
+$ mkdir /mnt/tmp
+$ mount -t vfat /dev/block/nanda /mnt/tmp
+$ exit
+$ adb pull /mnt/tmp/script.bin 
+</code>
+
+<callout type="warning" icon="true"> il sistema sopra descritto non sembra funzionare con Android4.4 per BPI-M2</callout>
+
+<callout type="warning" icon="true"> i file script.bin per Linux e Android sono tipicamente differenti e non interscambiabili, quindi partire da quello giusto!</callout>
+
+
+## Risorse
+  * [[https://github.com/amery/sunxi-tools|Tools sunxi per gestione files Fex]]
+
+
+## Documenti e Tutorials
+
+  * [[http://www.cnx-software.com/2012/05/06/editing-allwinner-a10-board-configuration-files-script-bin/|Editing AllWinner Board Configuration Files (script.bin)]]
+  * [[http://forum.lemaker.org/thread-221-1-1.html|How to modify the script.bin file]]

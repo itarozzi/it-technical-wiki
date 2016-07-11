@@ -1,0 +1,34 @@
+#Electron Framework - Home Page
+[[http://electron.atom.io/]]
+
+Il framework Electron permette di creare applicazioni desktop multipiattaforma sfruttanto tecnologia per webapp (HTML5-JavaScript-CSS).
+
+Electron usa Chromium e Node.js, per creare un'applicazione stand-alone. L'applicazione viene avviata in un'istanza sandbox del browser Chromium, in modo da apparire all'utente come una normale applicazione desktop.
+
+[[https://github.com/ilyavorobiev/atom-docs/blob/master/atom-shell/Architecture.md|Atom Shell Architecture]]
+
+
+Electron comprende strumenti per il debugging e profiling, per il packaging e la distribuzione sui 3 S.O. supportati (Mac, Windows, Linux).
+Per il mobile (Android e iOS) una soluzione alternativa ed equivalente potrebbe essere Ionic.
+
+Un'alternativa ad Electron (chiamato in passato atom-shell) è costituita da NW.js (node-webkit).  E' possibile vedere una comparativa tra i due al seguente [[http://tangiblejs.com/posts/nw-js-electron-compared|link]]
+
+## Photon - UI toolkit for Electron
+...
+
+
+# Risorse e tutorial
+
+~~ Da Verificare ~~
+
+
+  * [[https://github.com/electron/electron-api-demos/blob/master/docs.md]]
+  * Ionic and Electron [[https://www.raymondcamden.com/2015/07/23/some-initial-thoughts-on-building-desktop-apps-with-ionic-and-electron/]]
+  * [[http://tutorialzine.com/2015/12/creating-your-first-desktop-app-with-html-js-and-electron/]]
+  * [[http://www.dontpaniclabs.com/blog/post/2015/08/04/github-electron-tutorial-using-electron-boilerplate/]]
+  * [[https://github.com/sindresorhus/awesome-electron]]
+  * Electron, WordPress & Angular Material - [[http://thejackalofjavascript.com/electron-wordpress-angular-material-an-offline-viewer/]]
+  * [[https://hacks.mozilla.org/2012/11/tracking-down-memory-leaks-in-node-js-a-node-js-holiday-season/]]
+  * [[http://photonkit.com/]]
+  * [[http://blog.soulserv.net/building-a-package-featuring-electron-as-a-stand-alone-application/]]
+  * Packager - [[https://github.com/electron-userland/electron-packager]]

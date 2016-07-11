@@ -1,0 +1,34 @@
+# BananaPI M2 - HomePage
+
+La presente sezione contiene informazioni tecniche riguardanti la SBC BananaPI-M2 by Sinovoip, basata su SoC AllWinner A31s
+
+## BSP Android
+Sinovoip fornisce i sorgenti **Android 4.4** per BPI-M2 sotto forma di file tgz di 15Gb (BPI-M2-Android4.4.tar.gz), scaricabile dal loro server FTP.
+L'archivio contiene tutte le componenti per la compilazione di una nuova immagine Android (toolchain, src u-boot, src kernel linux, src android, tools).
+
+La compilazione richiede (consigliata) un host Ubuntu 12.04, con installati una serie di pacchetti descritti nel file ''README.md''.
+
+La compilazione e la creazione del nuovo file img viene eseguita da due script, a seconda del dispositivo di output da utilizzare:
+
+* build_hdmi.sh
+
+* build_LCD.sh
+
+Nei sorgenti scaricati, l'LCD supportato è il 7" 800x480 venduto da Sinovoip, con connessione RGB.
+
+<callout type="info" icon="true"> rispetto alle istruzioni descritte nel file README.md, ho dovuto installare anche il pacchetto busybox per poter completare la generazione dell'immagine Android</callout>
+
+Per agevolare la compilazione e soddisfare tutte le dipendenze (il sistema consigliato è piuttosto datato) ho usato un container **Docker**. Sinovoip fornisce un container adatto allo scopo e le istruzioni sono presenti nello UserManual della BPI-M2 - valido sia per Linux che per Android ([[https://hub.docker.com/u/sinovoip/]]).
+
+Se la compilazione e la generazione dell'immagine va a buon fine, viene creato il file: ''./lichee/tools/pack/sun6i_android_mars-a31s.img''
+lichee/tools/pack/sun6i_android_mars-a31s.img
+
+
+### Note tecniche sui sorgenti
+Nel BSP di Android 4.4 per BPI-M2, i files FEX sono contenuti in ''/lichee/tools/pack/chips/sun6i/configs/android/mars-a31s/''
+
+----
+
+Il contenuto del file finale ''build.prop'' (contenente ad esempio la densità dell'LCD e altri parametri) viene generato a partire dal file ''./android/device/softwinner/mars-a31s/mars_a31s.mk''
+
+----
