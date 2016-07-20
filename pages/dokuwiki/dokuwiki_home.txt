@@ -8,6 +8,12 @@ Sarà quindi necessariamente una sezione continuamente aggiornata
 
 
 ## Sincronizzare con GIT
+
+//**La presente sezione è obsoleta, in quanto la sincronizzazione tramite GIT avviene ora manualmente o tramite script cron.
+Aggiornare al più presto, nel frattempo vedere file README.md del repository  github
+**//
+
+
 Per sincronizzare le pagine di questo wiki utilizzo git e il plugin:
 https://www.dokuwiki.org/plugin:gitbacked
 
