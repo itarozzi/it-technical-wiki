@@ -23,6 +23,9 @@ Per agevolare la compilazione e soddisfare tutte le dipendenze (il sistema consi
 Se la compilazione e la generazione dell'immagine va a buon fine, viene creato il file: ''./lichee/tools/pack/sun6i_android_mars-a31s.img''
 lichee/tools/pack/sun6i_android_mars-a31s.img
 
+### Dettagli sulla compilazione di Android
+Per i dettagli sulla compilazione e sulla customizzazione di Android per BPI-M2 si faccia riferimento alla [[embedded:bpi-m2:android-compiling|pagina dedicata]]
+
 
 ### Note tecniche sui sorgenti
 Nel BSP di Android 4.4 per BPI-M2, i files FEX sono contenuti in ''/lichee/tools/pack/chips/sun6i/configs/android/mars-a31s/''

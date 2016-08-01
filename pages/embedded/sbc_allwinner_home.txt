@@ -98,6 +98,7 @@ umount  =>  .raw -> [img2simg] -> .fex -> [imgrepacker] -> .img
 
 
 
+
 ## Risorse
   * [[https://github.com/amery/sunxi-tools|Tools sunxi per gestione files Fex]]
 

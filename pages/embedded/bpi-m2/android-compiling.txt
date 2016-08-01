@@ -1,0 +1,72 @@
+====== Compilazione Android 4.4.2 su BPI-M2 ======
+
+La presente sezione fa riferimento alla compilazione di un'immagine Android partendo dai sorgenti rilasciati da Sinovoip come file ''BPI-M2-Android4.4.tar.gz'' di 16GB compresso.
+
+Una volta decompresso il file, sono disponibili i 2 script per la compilazione della versione HDMI e LCD (''build\_hdmi.sh'' e ''build_LCD.sh'').
+
+Di seguito vengono descritti i dettagli della compilazione della versione LCD, e alcune note su come personalizzare alcuni aspetti.
+
+Il contenuto dello script '''build_LCD.sh''' è il seguente:
+
+<code>
+#!/bin/bash
+rm ./lichee/tools/pack/chips/sun6i/configs/android/mars-a31s/sys_config.fex
+cp ./lichee/tools/pack/chips/sun6i/configs/android/mars-a31s/sys_config_7-touchscreen.fex ./lichee/tools/pack/chips/sun6i/configs/android/mars-a31s/sys_config.fex
+rm ./android/device/softwinner/fiber-common/egl/hwcomposer.sun6i.so
+cp ./android/device/softwinner/fiber-common/egl/hwcomposer.sun6i.7-touchscreen.so ./android/device/softwinner/fiber-common/egl/hwcomposer.sun6i.so
+cd ./lichee
+./build.sh -p sun6i_fiber_a31s
+cd ../android
+source build/envsetup.sh
+lunch mars_a31s-eng
+extract-bsp
+make -j8
+pack
+cd ../lichee/tools/pack
+ls -l
+</code>
+
+Per prima cosa vengono copiati alcuni files fex e so nelle opportune directory android **__Da approfondire__**
+
+Successivamente viene compilato il kernel linux adattato per Android (''lichee'') utilizzando la configurazione denominata ''sun6i_fiber_a31s''.
+
+Poi viene eseguita la compilazione di Android, usando il target ''mars_a31s-eng''. Questa produce nella directory ''./android/out/'' le immagini e gli eseguibili di android, apk di sistema compresi.
+
+Infine viene eseguita l'utility ''pack'' che crae nella directory ''./lichee/tools/pack'' il file di immagine finale (''.img'') da utilizzare poi con l'utility PhoenixCard di AllWinner.
+
+===== Configurazione del target Android =====
+
+Il comando ''lunch'' viene invocato passando il tipo di target da compilare:''mars_a31s-eng''. Questo fa si che vengano impostate le seguenti variabili d'ambiente usate durante la successiva compilazione:
+
+<code>
+PLATFORM_VERSION_CODENAME=REL
+PLATFORM_VERSION=4.4.2
+TARGET_PRODUCT=mars_a31s
+TARGET_BUILD_VARIANT=eng
+TARGET_BUILD_TYPE=release
+TARGET_BUILD_APPS=
+TARGET_ARCH=arm
+TARGET_ARCH_VARIANT=armv7-a-neon
+TARGET_CPU_VARIANT=cortex-a7
+HOST_ARCH=x86
+HOST_OS=linux
+HOST_OS_EXTRA=Linux-4.5.0-2-amd64-x86_64-with-Ubuntu-12.04-precise
+HOST_BUILD_TYPE=release
+BUILD_ID=KOT49H
+OUT_DIR=out
+</code>
+
+Alcune delle caratteristiche specifiche per la board sono contenute nei file nella directory ''/android/device/softwinner/mars-a31s''.
+
+Il file ''mars_a31s.mk'' elenca quali di questi file vanno copiati nel filesystem finale, e in quali path.
+
+Tra le altre cose, in questa directory sono contenuti:
+  * Animazione di boot: bootanim.zip
+  * script di init
+  * file fstab
+  * configurazioni delle permissions
+  * configurazioni USB accessory e host
+  * configurazioni key and touch panel 
+  * PRODUCT PROPERTY OVERRIDES
+
+
