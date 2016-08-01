@@ -1,0 +1,52 @@
+#Meteor Framework - Home Page
+[[https://www.meteor.com]]
+
+Il framework Meteor è un framework full stack per la creazione di webapp SPA con tecnologia Javascript (client + server), HTML5, CSS3 e MongoDB.
+Rispetto ad altri framework, come Electron, questo permette di gestire in un unico ambiente e con un unico linguaggio sia la parte di backend (server) che la parte di frontend (browser). Inoltre l'interazione tra client e server tramite chiamate AJAX e altre tecnologie è resa trasparente e ampiamente facilitata dal framework stesso.
+
+Infine, tramite Meteor, è possibile creare anche applicazioni mobile (Android e iOS) che sfruttino la stessa tecnologia usata per il browser.
+
+Sono poi possibili integrazioni tra Meteor ed Electron per la creazione di applicazioni desktop (...)
+
+## Quick Start
+
+
+## Architettura di sistema e tecnologie
+...
+
+
+## IDE e tools di sviluppo
+
+### Brackets
+
+### Vim
+#### Plugins
+  * [[https://github.com/Slava/tern-meteor|TernJS for Meteor]]    
+  * [[https://www.youtube.com/watch?v=TIE9ZOqlvFo|video]]
+  * [[https://github.com/cmather/vim-meteor-snippets|VIM Meteor Snippets]]
+  * [[https://github.com/cmather/dotvim|VIM Configuration]]
+
+### Atom
+[[https://atom.io/]]
+
+#### Packages & Plugins
+  * Meteor API: syntax highlighting, snippets and autocomplete
+  * Meteor Helper: pulsanti integrati per avvio/arresto di meteor
+
+
+
+## Kadira
+[[https://kadira.io/]]
+Kadira Platform helps you to optimize your Meteor app.
+
+
+## Velocity
+[[https://velocity.readme.io/]]
+The reactive test-runner for Meteor. Velocity is a community as well as a testing framework that allows for common testing components to be shared across different testing frameworks. The packages include: Mocha, Jasmine, Cucumber, Casper, and Robot.
+
+
+# Risorse e tutorial
+  * [[https://www.meteor.com/tutorials|Tutorial ufficiali sul sito del progetto Meteor]]
+  * 
+~~ Da Verificare ~~
+

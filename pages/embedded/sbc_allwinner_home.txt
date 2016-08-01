@@ -7,8 +7,11 @@ Questa sezione contiene informazioni riguardanti sistemi embedded (Linux e Andro
   * [[embedded:BPI-M3|BananaPI M3 - Home]] - BananaPI M3 AllWinner A83T
 
 
-## Generic AllWinner 
-### script.bin and FEX File fo A10/A20 SoC
+## Generic AllWinner
+
+==== script.bin and FEX File fo A10/A20 SoC ====
+
+
 **script.bin** is a binary configuration file used by AllWinner SOC core driver or LiveSuit. And it contains the information that how to set the peripherals, port, and I/O pins of A10/A20 target board.
 Because we can not compile the script.bin file directly, we have to modify the corresponding text file whose format is FEX. We can use the **sunxi-tools** to change binary file into text file or change it back.
 
@@ -28,6 +31,71 @@ $ adb pull /mnt/tmp/script.bin
 <callout type="warning" icon="true"> il sistema sopra descritto non sembra funzionare con Android4.4 per BPI-M2</callout>
 
 <callout type="warning" icon="true"> i file script.bin per Linux e Android sono tipicamente differenti e non interscambiabili, quindi partire da quello giusto!</callout>
+
+## ANDROID 
+
+Le schede con SoC AllWinner possono avere uno storage Flash a bordo oppure no. 
+
+Nel primo caso è possibile scrivere la flash  collegando la scheda via USB ad un PC ed utilizzando un'apposita Utility (Livesuite per Linux o PhoenixSuite per Windows).  Oppure è possibile preparare una SD che andrà poi a scrivere la flash, attraverso il tool PhoenixCard (Solo windows).
+
+Nel secondo caso occorre preparare una SD su cui risiederà il filesystem android, attraverso il tool PhoenixCard (Solo windows).
+
+### Preparazione delle SD Android
+Il tool PhoenixCard funziona solo con Windows, e non esiste un omologo per Linux. E' però posibile utilizzarlo con VirtualBox //(soluzione testata: windows 8.1 + PhoenixCard 3.1.0)//
+
+<callout type="info" icon="true">da verificare il funzionamento attraverso Wine.....</callout>
+
+
+Per la creazione di una SD Android occorre quindi:
+  * un PC con windows o VirtualBox
+  * una SD o microSD, a seconda della scheda
+  * un lettore USB di SD/microSD
+  * il software PhoenixCard 
+
+I passi sono i seguenti:
+  - Inserire la SD nel lettore e collegarlo al PC
+  - Avviare il software PhoenixCard
+  - Verificare che l'unità relativa alla SD venga riconosciuta correttamente (pulsante //DiskCheck//)
+  - Caricare il file immagine da scrivere (pulsante //ImgFile//)
+  - Selezionare attentamente il //Write Mode// (in questo caso **Startup**)
+  - Avviare la scrittura della SD (pulsante //Burn//)
+
+
+
+<callout type="info" icon="true">
+Il parametro //Write Mode// stabilisce che tipo di SD verrà creata.
+
+
+Selezionando **Product**, verrà creata una SD da utilizzare per la scrittura della Flash interna. Avviando quindi la scheda con tale SD inserita verrà installato il sistema sulla Flash, poi la SD potrà essere rimossa. 
+
+Selezionando **Startup**, verrà creata una SD con il filesystem Android, da utilizzare in assenza di Flash o per provare sistemi alternativi.  In questo caso ovviamente la SD dovrà essere mantenuta sempre inserita nella Board.
+</callout>
+
+
+### Modifica delle immagini Android per SoC Allwinner
+
+Per la manipolazione delle immagini Android fornite per SoC AllWinner si può usare il tool imgRePacker, da sito XDA.
+
+Il tool contiene 3 utility:
+  * **imgrepacker**: esegue il dump di un file ''.img'' in una serie di files ''.fex''
+  * **simg2img**: converte i files ''.fex'' in files raw, che è possibile montare sul filesystem
+  * **simg2img**: converte i files raw in ''.fex'' 
+
+Quindi il procedimento è il seguente:
+
+//UNPACK://
+
+.img  -> [imgrepacker] -> .fex -> [simg2img] -> .raw(ext4)  =>  mount
+
+
+..... modifica dei files
+
+   
+//REPACK://
+
+umount  =>  .raw -> [img2simg] -> .fex -> [imgrepacker] -> .img
+ 
+
 
 
 ## Risorse
