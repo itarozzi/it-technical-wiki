@@ -21,6 +21,7 @@
 ===== SBC ARM =====
 
   * [[embedded::SBC AllWinner Home]]
+    * [[embedded:bpi-m2|BananaPi M2]]
 
 
 ====== SysAdmin ======

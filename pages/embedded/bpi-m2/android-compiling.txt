@@ -70,3 +70,46 @@ Tra le altre cose, in questa directory sono contenuti:
   * PRODUCT PROPERTY OVERRIDES
 
 
+===== Main Make Recipes =====
+Alcune delle principali istruzioni per la creazione dell'immagine TARGET vengono eseguite dal Makefile : ''build/core/Makefile''.
+
+Dentro questo file si trovano le istruzioni per creare :
+  * Properties (inclusi i files ''/default.prop'' e ''/system/build.prop'')
+  * RAM disk (root/ directory)
+  * Boot Image (RAM Disk + Kernel Image)
+  * Recovery Image
+  * System Image (the Target ''/system'' directory)
+  * Data Partition Image (the Target ''/data'' directory)
+  * OTA Keystore
+  * OTA update package
+  * SDK
+
+===== Compilazione di un singolo modulo =====
+Per compilare un singolo modulo passare il nome del modulo al comando make.
+
+Esempio: 
+<code>
+make Launcher2
+</code>
+
+In questo caso verrà ricompilato solo il modulo Launcher2.  Da notare però che __non verrà rigenerata l'immagine di sistema che lo contiene.__
+
+Per rigenerare la system image aggiungere il target **snod**
+<code>
+make Launcher2 snod
+</code>
+
+Infine è possibile eseguire solo il clean di un modulo, attraverso il comando
+<code>
+make clean-Launcher2
+</code>
+
+===== Tips & Tricks =====
+<callout>
+per  visualizzare l'output dei singoli comandi eseguiti da make, aggiungere il parametro ''showcommands''
+Esempio: '' make showcommands 2>&1 > build.log''
+</callout>
+
+<callout>
+I sorgenti delle app custom specifiche per BananaPi (Launcher, FileManager,...) sono in: ''device/softwinner/fiber-common/prebuild/packages''
+</callout>
