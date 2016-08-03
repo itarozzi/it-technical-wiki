@@ -1,0 +1,77 @@
+====== Android Custom Image ======
+La presente sezione descrive come poter customizzare alcuni aspetti di un'immagine Android partendo dai sorgenti (solitamente rilasciati dal produttore della scheda, o utilizzando i sorgenti AOSP).
+
+Come caso di studio viene presa la customizzazione operata per la ditta EME Srl.   Come base viene presa l'immagine Android 4.4 per bananaPi-M2, utilizzando i sorgenti distribuiti da Sinovoip per tale board. Alcune modifiche dovrebbero comunque avere valenza generale anche per altre schede e altre versioni di Android.
+
+===== Definizione di un nuovo device =====
+I sorgenti Sinovoip definiscono per la BPI-M2 uno speciale device, nella directory ''device/softwinner/mars-a31s''.
+
+Inoltre tale device esegue l'import di parti comuni dal device generico: ''device/softwinner/fiber-common''
+
+Per un miglior controllo sulle modifiche e per non modificare i device originali, viene introdotto un nuovo device, che chiameremo : ''device/softwinner/mars-a31s-eme''.
+
+  # copiare la directory esistente per cerare un nuovo device
+  cp mars-a31s mars-a31s-eme
+    
+  # modificare il nome del file mk per adeguarlo al nuovo device
+  mv mars-a31s-eme/mars_a31s.mk mars-a31s-eme/mars_a31s_eme.mk
+  
+  # modificare il contenuto di AndroidProducts.mk adeguando il nome
+  ...  $(LOCAL_DIR)/mars_a31s_eme.mk
+  
+  # modificare il contenuto di mars_a31s_eme.mk sostituendo le occorrenze del vecchio path con il nuovo
+  ...  mars_a31s -> mars_a31s_eme
+  
+  # modificare il contenuto di mars_a31s_eme.mk adeguando PRODUCT_DEVICE e PRODUCT_NAME 
+  #  PRODUCT_NAME deve corrispondere al parametro lunch e usa gli underscore
+  #  PRODUCT_DEVICE deve corrispondere al nome della directory, usa il trattino
+  PRODUCT_NAME   := mars_a31s_eme
+  PRODUCT_DEVICE := mars-a31s-eme
+  PRODUCT_MODEL  := BananaPi-2-EME 
+  
+  # modificare il contenuto di package.sh adeguando il nome
+  ...
+      
+  # modificare il contenuto di vendorsetup.sh adeguando il nome
+  ...
+     
+  # rendere visibile  il nuovo device a lunch
+  add_lunch_combo mars_a31s_eme-eng
+  
+
+===== Aggiunta di una App all'immagine =====
+
+<callout type="warning" icon="true">L'aggiunta di un App come descritto in EmbeddedAndroid sembra funzionare solo con i progetti Eclipse, e non con i progetti AndroidStudio che utilizzano gradle.
+
+Al momento quindi l'unica soluzione è quella di aggiungere gli apk già compilati </callout>
+
+===== Rimozione di una App dall'immagine =====
+L'elenco delle App da inserire nell'immagine viene definito nel file ''fiber-common.mk'' ed eventualmente ampliato nel file .mk del device specifico, impostando la variabile PRODUCT_PACKAGES.
+
+Per eliminare quindi alcune applicazioni o librerie dall'immagine finale, occorre eliminarne l'occorrenza da tale variabile.
+Questo può essere fatto in vari modi:
+
+  - Modificare il file ''fiber-common.mk''.  Questo però //__ha ripercussioni su tutte le immagini che lo importano e quindi è sconsigliato__//
+  - Non eseguire l'import del file ''fiber-common.mk'', e ridefinire nel file mk del device tutte le variabili in esso presente
+  - Eliminare dalla variabile PRODUCT_PACKAGES l'occorrenza del file apk
+
+Il secondo metodo consente di avere un maggiore controllo su tutte le opzioni e customizzare più precisamente tutte le caratteristiche del sw incluso.  Ha lo svantaggio di rompere la sincronia con le immagini generate con i sorgenti di default (ma se i sorgenti originali non subiscono aggiornamenti questo può non rappresentare un problema).
+
+<callout type="warning" icon="true">
+Il terzo metodo consentirebbe di non riscrivere tutte le definizioni del file common, andando solo a rimuovere le parti che non interessano.
+Trattandosi di files processati dall'utility ''make'', è possibile usare la funzione ''filter-out'' come nel seguente esempio:
+  ###   Remove some packages added by fiber-common.mk 
+  PRODUCT_PACKAGES := $(filter-out Camera2 TvdVideo AllCast kodi-14.2-Helix-armeabi-v7a.apk MiracastReceiver  ,$(PRODUCT_PACKAGES))
+  
+Il problema è che filter-out non sembra funzionare per le variabili definite in altri file e importati attraverso ''inherit-product'', quindi di fatto questo sistema non funziona!
+</callout>  
+===== Overlay di un App di sistema =====
+E' possibile personalizzare le risorse delle applicazioni di sistema senza modificarne il codice, usando la funzionalità di **Overlay**.
+
+All'interno della directory del nuovo device creare una directory ''overlay/''. All'interno di questa, ricreando i path delle risorse delle app di sistema (esempio: ''overlay/packages/apps/Launcher2/res/values'') è possibile creare dei nuovi file di risorse (xml, immagini, ...) che andranno a sostituire quelli standard.
+
+Occorre inoltre aggiungere la directory di overlay da usare nel file ''.mk'' del device, nella variabile DEVICE\_PACKAGE\_OVERLAYS.
+
+<callout type="info" icon="true">
+Copiando l'intera directory device come descritto sopra, la directory overlay è già presente con alcune res custom
+</callout>

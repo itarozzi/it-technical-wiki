@@ -27,6 +27,14 @@ lichee/tools/pack/sun6i_android_mars-a31s.img
 Per i dettagli sulla compilazione e sulla customizzazione di Android per BPI-M2 si faccia riferimento alla [[embedded:bpi-m2:android-compiling|pagina dedicata]]
 
 
+### Customizzazione di un'immagine Android
+E' possibile personalizzare un'immagine Android attraverso diverse modalità.
+
+Un'opzione è quella di decomprimere un file img esistente e apportare le modifiche, poi ricomprimere.
+
+Un'altra opzione è quella di compilare dai sorgenti una nuova immagine, apportando le opportune modifiche sui sorgenti e aggiungendo opzioni di compilazione specifiche per il device.  Quest'ultima strada ha diversi vantaggi e viene descritta nella seguente pagina: [[embedded:bpi-m2:android-custom-device|Android Custom Image]]
+
+
 ### Note tecniche sui sorgenti
 Nel BSP di Android 4.4 per BPI-M2, i files FEX sono contenuti in ''/lichee/tools/pack/chips/sun6i/configs/android/mars-a31s/''
 

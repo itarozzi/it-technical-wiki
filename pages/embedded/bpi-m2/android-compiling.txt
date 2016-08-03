@@ -113,3 +113,17 @@ Esempio: '' make showcommands 2>&1 > build.log''
 <callout>
 I sorgenti delle app custom specifiche per BananaPi (Launcher, FileManager,...) sono in: ''device/softwinner/fiber-common/prebuild/packages''
 </callout>
+
+
+<callout>
+Il launcher di default Launcher2 non viene utlizzato e non compare nell'immagine.
+
+Al suo posto viene usato il pacchetto ''TvdLauncher.apk''.
+
+La definizione del launcher di default viene impostata attraverso le properties definite in ''device/softwinner/mars-a31s/mars_a31s.mk''
+
+
+  ro.sw.defaultlauncherpackage=com.softwinner.launcher 
+  ro.sw.defaultlauncherclass=com.softwinner.launcher.Launcher 
+
+</callout>
