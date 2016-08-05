@@ -45,6 +45,47 @@ Per un miglior controllo sulle modifiche e per non modificare i device originali
 
 Al momento quindi l'unica soluzione è quella di aggiungere gli apk già compilati </callout>
 
+Ci sono varie possibilità per aggiungere un APK all'immagine (non mi è ancora chiaro se ci sono differenze tra le varie opzioni).
+
+In tutti i caso sotto descritti però, essendo che i package solitamente vengono "taggati" come optional, occorre aggiungerli manualmente alla variabile PRODUCT_PACKAGES, o nel file ''fiber-common.mk'' o nel file mk dello specifico device.
+
+il nome del pacchetto che viene aggiunto a tale variabile deve corrispondere al ''LOCAL_MODULE'' definito nel file Android.mk all'interno delle sottodirectory descritte sotto.  A seconda dell'opzione usata il nome del pacchetto comprenderà o meno l'estensionen .apk .
+
+Nel caso di pacchetti con sorgenti  (ma attualmente non funzionante con gradle) questi vanno posti ''/fiber-common/prebuild/packages'',
+
+
+==== Opzione 1 - preinstallapk ====
+  * Aggiungere il file apk alla directory ''/fiber-common/prebuild/preinstallapk''
+  * Aggiungere una sezione nel file ''Android.mk'', relativa al nuovo package
+
+  # Esempio: come aggiungere Kodi
+  include $(CLEAR_VARS)
+  LOCAL_MODULE := kodi-14.2-Helix-armeabi-v7a.apk
+  LOCAL_MODULE_TAGS := optional
+  LOCAL_CERTIFICATE := PRESIGNED
+  LOCAL_MODULE_PATH := $(TARGET_OUT)/preinstall
+  LOCAL_MODULE_CLASS := APPS
+  LOCAL_SRC_FILES := $(LOCAL_MODULE)
+  include $(BUILD_PREBUILT)
+
+<callout type="info" icon="true">
+La variabile ''LOCAL_MODULE_PATH'' può definire un path alternativo in cui installare l'apk nel target. Se non specificato verrà usato ''/system/app''
+</callout>
+
+==== Opzione 2 - apk ====
+  * Aggiungere il file apk alla directory ''/fiber-common/prebuild/apk''
+  * Aggiungere una sezione nel file ''Android.mk'', relativa al nuovo package
+
+  # Esempio
+  include $(CLEAR_VARS)
+  LOCAL_MODULE := app-debug
+  LOCAL_MODULE_TAGS := optional
+  LOCAL_CERTIFICATE := PRESIGNED
+  LOCAL_MODULE_CLASS := APPS
+  LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
+  LOCAL_SRC_FILES := $(LOCAL_MODULE).apk
+  include $(BUILD_PREBUILT)
+
 ===== Rimozione di una App dall'immagine =====
 L'elenco delle App da inserire nell'immagine viene definito nel file ''fiber-common.mk'' ed eventualmente ampliato nel file .mk del device specifico, impostando la variabile PRODUCT_PACKAGES.
 
