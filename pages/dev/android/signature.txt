@@ -1,0 +1,84 @@
+====== Android - Sign Your App ======
+La gestione della signature di un'app è descritta nell'apposita pagina su [[https://developer.android.com/studio/publish/app-signing.html|Android Developer]].
+
+===== Certificates and Keystores =====
+La certificazione di una App Android di basa su un sistema di signing che utilizza un "public-key certificate" o "digital certificate". Esso contiene una chiave pubblica (di una coppia chiavi pubblica-privata) e una serie di metadati sul detentore di tale certificato (nome, località,...).
+
+Un keystore è un file binario che contiene una chiave una o più chiavi private, oltre una serie di metadati sul detentore di tale keystore.
+
+Per ogni chiave, viene specificata la data di scadenza e un alias (che identifica tale chiave).
+
+Un file keystore può essere generato attraverso un wizard di AndroidStudio o attraverso l'utility ''keytool'':
+  keytool -genkey -v -keystore my-release-key.keystore -alias alias_name -keyalg RSA -keysize 2048 -validity 10000
+  
+A questo punto è possibile usare tale keystore per eseguire la signature dell'APK, o tramite AndroidStudio o tramite il tool ''jarsigner'':
+  jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.keystore my_application.apk alias_name
+  zipalign -v 4 my_application-unaligned.apk my_application.apk
+
+
+<callout type="info" icon="true">
+E' possibile analizzare il contenuto di un file keystore attraverso l'utility ''keytool'':
+  keytool  -list -v -keystore ./my-release-key.keystore
+</callout>
+===== Verifica della signature di un APK =====
+E' possibile verificare se un APK reca una signature valida con il seguente comando:
+  jarsigner -verify -verbose -certs my_application.apk
+
+
+===== Keystore di debug =====
+Quando si installano i tools di sviluppo di Android, viene creato un file keystore da utilizzare per debug.
+
+Il file è ''$HOME/.android/debug.keystore''
+
+Non è possibile inviare APK con signature di debug sugli store, quindi occorre creare un keystore "personale" se si vogliono pubblicare le proprie Apps.
+
+<callout type="info" icon="true">Il keystore di debug ha generalmente una scadenza di 365gg</callout>
+
+
+
+===== Metodo alternativo con OpenSsl e SignApk.jar =====
+Al posto di usare l'utility ''keytool'' e i files keystore è  possibile utilizzaer il seguente metodo alternativo:
+
+Per prima cosa generare la coppia di chiavi pubblica/privata 
+
+  openssl genrsa -out key.pem 1024
+  openssl req -new -key key.pem -out request.pem
+  openssl x509 -req -days 9999 -in request.pem -signkey key.pem -out certificate.pem
+  openssl pkcs8 -topk8 -outform DER -in key.pem -inform PEM -out key.pk8 -nocrypt
+
+
+Poi eseguire la signature di un file Apk attraverso il tool SignApk.jar
+  java -jar signapk.jar certificate.pem key.pk8 your-app.apk  your-signed-app.apk
+  
+  OR
+  
+  java -jar signapk.jar certificate.pem key.pk8 your-update.zip your-signed-update.zip
+  
+<callout type="info" icon="true">
+Questo metodo alternativo che fa uso di chiavi pubbliche/private sembra essere quello utilizzato nella compilazione dei sorgenti Android AOSP, per la creazione e la signature degli APK di sistema.
+
+Nel path ''android/build/target/product/security'' sono infatti presenti i seguenti files:
+
+  media.pk8       
+  platform.pk8             
+  shared.x509.pem  
+  testkey.x509.pem
+  media.x509.pem  
+  platform.x509.pem  
+  shared.pk8  
+  testkey.pk8
+
+</callout>
+
+<callout type="info" icon="true">
+
+Dovrebbe essere possibile importare le chiavi pk8 e pem all'interno di un file keystore utilizzando i seguenti comandi.
+__La procedura deve però ancora essere verificata...__
+
+  openssl pkcs8 -inform DER -nocrypt -in key.pk8 -out key.pem
+  openssl pkcs12 -export -in certificate.pem -inkey key.pem -out platform.p12 -password pass:android -name mykey
+  
+  keytool -importkeystore -deststorepass password -destkeystore .keystore -srckeystore platform.p12 -srcstoretype PKCS12 -srcstorepass android
+  
+  keytool -list -v -keystore .keystore
+</callout>
