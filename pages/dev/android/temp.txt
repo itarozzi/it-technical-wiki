@@ -1,0 +1,64 @@
+====== Android - Info varie da verificare ======
+
+//Una volta testate e verificate, spostare in apposite pagine di dettaglio!!//
+
+===== Fastboot via u-boot =====
+//Verificaer se funziona anche con altre schede!!!!!//
+[[http://forum.lemaker.org/thread-310-1-1.html]]
+
+After changing the files of kernel, execute the following command to compile the kernel under the directory of "lichee" :
+
+    $ ./build.sh -p sun7i_android
+
+Copy the Code
+Then execute the following command to pack the file "boot.img" under the directory of "android" :
+
+    $ source build/envsetup.sh
+    $ lunch    //choose your enviroment
+    $ extract-bsp
+    $ make bootimage
+
+Copy the Code
+After getting the boot.img file,you have to flash the img to your bananapi board by the tool "fastboot":
+1. reboot your board,click any keybutton at your serial software interface,and then it will get into u-boot ;
+2. Enter the command"fastboot" at the serial software interface,then it will get into the fastboot mode ;
+3. Enter the windows command line: "cmd" ,execute "fastboot" at command line(You have to install the tool fastboot before),copy the boot.img file to the board.
+
+    $ fastboot erase boot
+    $ fastboot flash boot boot.img
+
+Copy the Code
+===== SharedUserId in AndroidManifest.xml file =====
+SharedUserId is used to share the data,processes etc between two or more applications. It is defined in AndroidManiFest.xml like,
+
+  manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  android:sharedUserId="android.uid.shared"
+  android:sharedUserLabel="@string/sharedUserLabel"
+
+and define the shared parameter in Android.mk for that app, like,
+  LOCAL_CERTIFICATE := shared
+
+
+===== Sign APK with platform key =====
+[[http://stackoverflow.com/questions/3635101/how-to-sign-android-app-with-system-signature]]
+
+
+Build and flash to your Dream your own Android using http://source.android.com/documentation/building-for-dream. 
+Use the mkkey.sh script on http://pdk.android.com/online-pdk/guide/release_keys.html to create new certificates, including x509 certificates before you do 'make'.
+
+In the AndroidManifest.xml of your application: under the <manifest> element, add the attribute
+  android:sharedUserId="android.uid.system".
+Export an unsigned version of your Android application using Eclipse: right-click on the project >> Android Tools >> Export Unsigned Application Package.
+
+Use <root-of-android-source-tree>/out/host/<your-host>/framework/signapk.jar to sign your app using platform.x509.pem and platform.pk8 in <root-of-android-source-tree>/build/target/product/security generated earlier:
+
+  java -jar signapk.jar platform.x509.pem platform.pk8 YourApp-unsigned.apk YourApp-signed.apk.
+  zipalign -fv 4 YourApplication-signed.apk YourApplication-aligned.apk
+
+Install the app to your device:
+
+    adb install YourApp-signed.apk
+
+Run your app
+    Use adb shell ps to confirm that your app is running as system.
+

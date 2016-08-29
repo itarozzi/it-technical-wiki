@@ -82,3 +82,6 @@ __La procedura deve però ancora essere verificata...__
   
   keytool -list -v -keystore .keystore
 </callout>
+
+===== Risorse =====
+* [[https://source.android.com/devices/tech/ota/sign_builds.html|Signing Builds for Release]]

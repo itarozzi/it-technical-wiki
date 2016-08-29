@@ -2,3 +2,7 @@
 
 ===== Tools di sviluppo e Signature =====
   * [[dev:android:signature|Signature e Keystores]]
+
+
+===== Varie =====
+* [[dev:android:temp|Info varie da verificare/approfondire]]

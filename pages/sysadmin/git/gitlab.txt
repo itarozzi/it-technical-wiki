@@ -1,0 +1,57 @@
+====== GitLab - VPS OVH - Docker ======
+Al fine di rendere il server Git accessibile dalla rete, e per ospitare progetti di clienti senza consentire l'accesso al server casalingo, utilizzo un VPS OVH su cui ho installato GitLab all'interno di un container Docker.
+
+
+===== Creazione del container GitLab =====
+
+La creazione del container è stata eseguita utilizzando l'immagine dal progetto GitLab ufficiale, nella versione Community Editionç:
+  sudo sudo docker run --detach --hostname vps309766.ovh.net --publish 2443:443 --publish 2080:80 --publish 2022:22 --name gitlab --restart always --volume /srv/gitlab/config:/etc/gitlab  --volume /srv/gitlab/logs:/var/log/gitlab  --volume /srv/gitlab/data:/var/opt/gitlab gitlab/gitlab-ce:latest
+
+In particolare, si può vedere come:  
+  * il nome del container è stato assegnato come **gitlab**
+  * il parametro hostname viene assegnato al nome del server vps
+  * le porte 22 (ssh), 80 (http) e 443 (https) del container sono mappate rispettivamente sulle porte 2022, 2080 e 2443 del VPS
+  * i dati, i log e la configurazione di gitlab sono mappati su volumi del VPS, sotto la directory ''/srv/gitlab''
+
+
+==== Abilitazione dell'accesso HTTPS/SSL ====
+Eseguire questi comandi dopo aver ottenuto accesso alla shell del container con il comando:  ''sudo docker exec -it gitlab /bin/bash''
+
+  # edit configuration file
+  sudo vim /etc/gitlab/gitlab.rb
+    external_url 'https://gitlab.domain.com:2443'
+    nginx['redirect_http_to_https'] = true
+
+  # Creare il certificato  self-signed
+  sudo mkdir -p /etc/gitlab/ssl
+  sudo chmod 700 /etc/gitlab/ssl
+  cd /etc/gitlab
+  sudo openssl genrsa -des3 -out ssl/vps309766.ovh.net.key 2048
+  sudo openssl req -new -key ssl/vps309766.ovh.net.key -out ssl/vps309766.ovh.net.csr
+  sudo cp -v ssl/vps309766.ovh.net.{key,original}
+  sudo openssl rsa -in ssl/vps309766.ovh.net.original -out ssl/vps309766.ovh.net.key
+  sudo rm -v ssl/vps309766.ovh.net.original
+  sudo openssl x509 -req -days 1460 -in ssl/vps309766.ovh.net.csr -signkey ssl/vps309766.ovh.net.key -out ssl/vps309766.ovh.net.crt
+  sudo rm -v ssl/vps309766.ovh.net.csr
+  sudo chmod 600 ssl/vps309766.ovh.net.key
+  sudo chmod 600 ssl/vps309766.ovh.net.crt
+
+  ## Riconfigurare e riavviare il servizio
+  gitlab-ctl reconfigure
+  gitlab-ctl restart
+ 
+__**Risorse:**__
+
+[[http://docs.gitlab.com/omnibus/docker/|Documentazione gitlab]]
+
+[[http://www.bonusbits.com/wiki/HowTo:Setup_HTTPS_for_Gitlab|Setup HTTPS access]]
+
+
+==== Altre configurazioni ====
+
+  root@vps309766:/opt/gitlab/embedded/service/gitlab-rails/app/views/layouts# vi devise.html.haml 
+
+===== Configurazione di Gruppi e Account =====
+
+
+===== Workflow e utilizzo di GitLab =====
