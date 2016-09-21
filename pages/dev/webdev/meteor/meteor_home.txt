@@ -12,8 +12,49 @@ Sono poi possibili integrazioni tra Meteor ed Electron per la creazione di appli
 
 
 ## Architettura di sistema e tecnologie
-...
+**Meteor** è un framework fullstack, quindi utile sia per sviluppare la parte client che la parte backend/webservices.
 
+Si appoggia su **Node.js** + **MongoDB** e per la parte di UI utilizza **Blaze**.
+
+Inoltre **Meteor CLI** fornisce una serie di tools agli sviluppatori per impostare velocemente un progetto e per l'intero workflow di sviluppo.
+
+Meteor include anche un mini-database che simula le stesse API di MongoDB. All'interno del browser è quindi possibile usare **Minimongo** con gli stessi comandi della console MongoDB.
+
+Meteor fa in modo che le elaborazioni del DOM vengano fatte direttamente sul browser. Vengono quindi scambiati solo i dati e la sincronizzazione tra server e browser avviene tramite Web Socket e un protocollo standard: //Distributed Data Protocol (DDP)//.
+
+Tutti i componenti di Meteor, dal DB alla UI del client, sono reattivi, quindi i dati vengono sincronizzati tra i vari client in real time, senza necessità di preoccuparsi manualmente del refresh.
+
+
+### Event loop & callbacks
+Le webapp scritte con Meteor sono //single-thread// e quindi le operazioni sono sincrone. Eventuali operazioni bloccanti devono quindi essere gestite attraverso callback via Node.js.
+
+Il flusso sincrono in Node.js è detto **event loop** ed è quello che processa la coda delle richieste utente (events).
+
+Per semplificare questo sistema Meteor utilizza **fibers**, che fornisce un abstraction layer che esegue i task asincroni in sequenza, eliminando la necessità di gestire esplicitamente i callback.
+
+
+### Come lavora Meteor
+Un'applicazione Meteor consiste in una business logic (codice + templates + stylesheet + assets) e una serie di packages, compilati per la piattaforma target usando **isobuild**. I packages servono a implementare funzionalità standard quali autenticazione, scambio dati, ecc.
+
+Oltre i tools classici come npm e Cordova, Meteor usa un sistema di packages custom chiamati //Isopacks//.
+
+{{ :dev:webdev:meteor:meteor1.jpg?direct |}}
+
+Le webapp comunicano attraverso HTTP + WebSockets (DDP), basandosi su SockJS. 
+
+Il client chiama funzioni sul server usando RPC e il server restituisce la risposta in oggetti JSON.
+
+Ogni client può sottoscrivere una certa **"data publication"**; Il componente **Livequery** si occupa di eseguire il push di ogni cambiamento ad un dataset via DDP.
+
+La libreria **Tracker** intercetta questi cambiamenti e aggiorna il DOM, aggiornando quindi la UI via **Blaze**.
+
+{{ :dev:webdev:meteor:meteor2.jpg?direct |}}
+
+### Approfondimenti:
+
+  * [[dev:webdev:meteor:core-projects|Core Projects]]
+  * [[dev:webdev:meteor:cli-tools|Isobuild & CLI tool]]
+  * [[dev:webdev:meteor:client-server-code|Client code vs server code]]
 
 ## IDE e tools di sviluppo
 
@@ -35,12 +76,12 @@ Sono poi possibili integrazioni tra Meteor ed Electron per la creazione di appli
 
 
 
-## Kadira
+### Kadira
 [[https://kadira.io/]]
 Kadira Platform helps you to optimize your Meteor app.
 
 
-## Velocity
+### Velocity
 [[https://velocity.readme.io/]]
 The reactive test-runner for Meteor. Velocity is a community as well as a testing framework that allows for common testing components to be shared across different testing frameworks. The packages include: Mocha, Jasmine, Cucumber, Casper, and Robot.
 

@@ -1,0 +1,11 @@
+# Client code vs server code
+
+Per mantenere chiarezza nel codice, e siccome alcune funzionalità sono necessarie solo sul client o solo sul server, è opportuno dividere la struttura dell'applicazione in varie sottodirectory:
+  * client: i files usati solo dal client (events, styles, views)
+  * server: i files usati solo dal server (API, mail, services...)
+  * lib: codice condiviso usato da entrambi i lati (javascript di validazione, funzioni comuni ...)
+
+La parte comune, prerogativa di Meteor rispetto ad altri framework, permette di ridurre la ridondanza del codice comune.
+
+Al primo caricamento dell'applicazione sul browser vengono trasferiti i contenuti per il client e per la parte comune (via HTTP), e poi inizia la trasmissione via DDP.
+

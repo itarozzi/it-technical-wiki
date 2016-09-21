@@ -1,0 +1,14 @@
+# Isobuild & CLI tool
+
+**CLI tool** è un comando simile a grunt o make, ed un package manager simile a apt o npm.
+
+Permette i seguenti task:
+  * creare una nuova applicazione
+  * aggiungere e rimuovere funzionalità (packages)
+  * Compilare ed eseguire il minify di script e styles
+  * Avviare, resettare e monitorare una applicazione
+  * Accedere alla shell MongoDB
+  * Prepare un'applicazione per il deployment
+  * Eseguire il deploy verso l'infrastruttura meteor.com
+
+CLI tool permette anche di processare file LESS per produrre CSS. Se necessario permette anche di compilare codice CoffeeScript in JavaScript.

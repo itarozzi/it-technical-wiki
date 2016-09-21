@@ -1,0 +1,43 @@
+# Core projects
+Meteor fornisce una serie di packages per le funzionalità comuni di una webapp. CLI tool permette di creare un nuovo progetto e installare i package desiderati. 
+
+I nuovi progetti contengono comunque una serie di package che costituiscono il core del sistema.
+
+## BLAZE
+
+Blaze è una libreria per UI reattive e una parte di essa è costituito dal linguaggio di templating chiamato **Spacebars**.
+
+In alternativa è possibile usare React, Angular o Ember, ma l'utilizzo di Blaze è più semplice.
+
+Quando un contenuto cambia, Blaze riesegue il rendering della sola parte di UI necessaria all'interno del template..
+
+
+## TRACKER
+
+Tracker fornisce le fondamenta per la reattività dell'applicazione.  Tracker si occupa del binding tra dati e funzioni, e di occupa di ritriggerare l'aggiornamento dei dati all'occorrenza.
+
+## DDP
+
+DDP è un protocollo proprietario basato su JSON, che sfrutta WebSocket come mezzo di comunicazione __bidirezionale__ tra Server e Client.
+
+Implementazioni di DDP sono anche presenti in altri linguaggi (Java, Python. ...), quindi teoricamente sarebbe possibile usare Meteor solo per la parte di frontend, e comunicare con un backend di altro tipo.
+
+
+## LIVEQUERY
+
+Livequery rileva i cambiamenti in un database ed esegue il push verso i clients, in modo da aggiornare la UI.
+
+Attualmente è presente il supporto per MongoDB, ma il supporto di altri DB è nella roadmap.
+
+## FULL-STACK DB DRIVERS
+
+Le applicazioni Meteor nel browser utilizzano **Minimongo** che è un'implementazione in-memory e non persistente di MongoDB in JavaScript.  Non utilizza HTML5 Local Storage perchè esiste solo nella memoria del browser.
+
+Minimongo funge da cache per le query ed è usato per simulare operazioni di insert. 
+
+Di fatto è un mirror del contenuto del DB MongoDB mantenuto sincronizzato in modalità reattiva.
+
+In questo modo si da la percezione all'utente di una latenza minima sulle operazioni, in quando vengono "simulate" nella cache locale. Se l'operazione va a buon fine in locale, la UI viene aggiornata e l'operazione viene trasmessa sul DB del server in background. Ovviamente eventuali errori sul server vengono notificati al client.
+
+
+
