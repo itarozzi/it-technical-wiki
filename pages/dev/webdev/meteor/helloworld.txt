@@ -1,0 +1,103 @@
+# Applicazioni Meteor - HelloWorld
+
+Quando si crea un'applicazione con meteor CLI viene creata la seguente struttura di files:
+<code>
+├── client
+│   ├── main.css
+│   ├── main.html
+│   └── main.js
+├── .gitignore
+├── package.json
+└── server
+    └── main.js
+ </code>
+
+## client/main.html
+
+''main.html'' contiene alcuni elementi caratteistici:
+<code>
+<head>
+  <title>helloWorld</title>
+</head>
+
+<body>
+  <h1>Welcome to Meteor helloWorld application !</h1>
+
+  {{> hello}}
+  {{> info}}
+</body>
+
+<template name="hello">
+  <button>Click Me</button>
+  <p>You've pressed the button {{counter}} times.</p>
+</template>
+
+<template name="info">
+  <h2>Learn Meteor!</h2>
+  <ul>
+    <li><a href="https://www.meteor.com/try" target="_blank">Do the Tutorial</a></li>
+    <li><a href="http://guide.meteor.com" target="_blank">Follow the Guide</a></li>
+    <li><a href="https://docs.meteor.com" target="_blank">Read the Docs</a></li>
+    <li><a href="https://forums.meteor.com" target="_blank">Discussions</a></li>
+  </ul>
+</template>
+</code>
+
+Gli elementi racchiusi tra parentesi ''\{{  }}'' defincono della parti dinamiche.
+
+Il simbolo maggiore (''>'') identifica l'inserimento di un template in quel punto.
+
+Il template viene dichiarato e descritto con le tag ''<template>''. Ogni template è identificato da un nome case sensitive che deve essere univoco.
+
+Il campo ''\{{ counter }}'' definisce un **helper**, ovvero un metodo JavaScript il cui valore di ritorno verrà inserito nel template.
+
+
+## client/main.js
+<code>
+import { Template } from 'meteor/templating';
+import { ReactiveVar } from 'meteor/reactive-var';
+import './main.html';
+
+Template.hello.onCreated(function helloOnCreated() {
+  // counter starts at 0
+  this.counter = new ReactiveVar(0);
+});
+
+Template.hello.helpers({
+  counter() {
+    return Template.instance().counter.get();
+  },
+});
+
+Template.hello.events({
+  'click button'(event, instance) {
+    // increment the counter when button is clicked
+    instance.counter.set(instance.counter.get() + 1);
+  },
+});
+</code>
+
+L'oggetto ''Template'' permette di accedere ai templates definiti nel file html, attraverso il nome univoco.
+
+In questo modo è possibile accedere agli helpers e agli events di tali templates.
+
+All'interno degli ''helpers'', occorre definire un helper con lo stesso nome utilizzato nel template (es ''counter'') e fare in modo che tale metodo ritorni il valore da mostrare.
+
+All'interno degli ''events'' è possibile legare del codice agli eventi generati dagli elementi del template (buttons, edit,...).
+
+
+Il metodo OnCreate funge invece da una sorta di costruttore, e viene chiamato quando il template viene creato la prima volta. All'interno di questo è possibile creare e inizializzare delle variabili "globali" con la keyword ''this''.
+In questo caso le variabili vengono create come oggetti ReactiveVar, in modo da assicurare la reattività della UI.
+
+
+## server/main.js
+Nel lato server, o script main.js contiene semplicemente il codice di avvio di un'applicazione Meteor, in modo da istanziare e avviare il backend. 
+<code>
+import { Meteor } from 'meteor/meteor';
+
+Meteor.startup(() => {
+  // code to run on server at startup
+});
+</code>
+
+Di fatto, in questo esempio, il backend non esegue alcuna operazione o interazione con il client.

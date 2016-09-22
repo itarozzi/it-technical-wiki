@@ -7,8 +7,32 @@ Rispetto ad altri framework, come Electron, questo permette di gestire in un uni
 Infine, tramite Meteor, è possibile creare anche applicazioni mobile (Android e iOS) che sfruttino la stessa tecnologia usata per il browser.
 
 Sono poi possibili integrazioni tra Meteor ed Electron per la creazione di applicazioni desktop (...)
-
 ## Quick Start
+Assicurarsi di avere installato Meteor (...)
+
+Creare una nuova applicazione:
+<code>
+meteor create helloWorld
+
+helloWorld created:
+
+├── client
+│   ├── main.css
+│   ├── main.html
+│   └── main.js
+├── .gitignore
+├── package.json
+└── server
+    └── main.js
+
+</code>
+
+start the application
+<code>
+meteor run [--port 8080]
+</code>
+Un server node/js verrà avviato sulla porta specificata (o sulla porta **3000** se non specificato) e un'istanza **MongoDB** sulla porta **3001**.
+
 
 
 ## Architettura di sistema e tecnologie
@@ -55,6 +79,10 @@ La libreria **Tracker** intercetta questi cambiamenti e aggiorna il DOM, aggiorn
   * [[dev:webdev:meteor:core-projects|Core Projects]]
   * [[dev:webdev:meteor:cli-tools|Isobuild & CLI tool]]
   * [[dev:webdev:meteor:client-server-code|Client code vs server code]]
+
+## Come scrivere le applicazioni
+  * [[dev:webdev:meteor:helloWorld|helloWorld application]]
+  * [[dev:webdev:meteor:templates|Working with templates]]
 
 ## IDE e tools di sviluppo
 

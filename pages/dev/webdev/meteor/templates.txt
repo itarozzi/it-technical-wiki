@@ -1,0 +1,30 @@
+# Working with templates
+
+I templates sono snippets di HTML che contengono dei placeholders che possono essere riempiti col contenuto restituito dal codice dell'applicazione.
+
+I templates permettono di ridurre la quantità di codice e renderlo riutilizzabile.
+
+Meteor usa **''Blaze''**, una libreria UI reattiva, fatta da :
+  * runtime API
+  * build-time compiler
+
+Blaze usa un linguaggio di templating chiamato **''Spacebars''**
+
+## Organizzazione dei files
+
+La UI di un'applicazione utilizza solitamente questi files:
+  * HTML contenente i templates
+  * JavaScript contenente la logica della UI, per la validazione delle variabili del template (opz.)
+  * CSS per la definizione degli stili dell'applicazione (opz.)
+  * Risorse statiche come immagini, fonts, suoni (opz.)
+
+La cosa migliore è creare un file HTML per ogni template. 
+
+Opzionalmente è possibile usare anche un file JavaScript per ogni template. Esempio:
+  * ''<template_name>.html''
+
+  * ''<template_name>.js''
+
+
+
+
