@@ -26,5 +26,21 @@ Opzionalmente è possibile usare anche un file JavaScript per ogni template. Ese
   * ''<template_name>.js''
 
 
+## Templates dinamici
+  * ''\{{ name }}''  render di stringhe dinamiche, restituite da helper js
+  * ''\{{\{ name }}}''  render di oggetto, array o stringa restituito da helper js (non convertito in stringa)
+  * ''\{{> templateName }}''  inclusione di un altro template
+  * ''\{{#directive}}'' ... ''\{{/directive}}''  
 
+Nel caso di inclusione di template è anche possibile fare in modo che il nome del template sia restituito da helper:
 
+''\{{> Template.dynamic template=templateName }}''  
+  
+  In questo caso templateName viene restituito da javascript:
+  <code>
+  Template.dynamicPartials.helpers({
+    templateName: function() {
+       return "theNameOfTemplateToInclude";
+    });
+    </code>
+  
