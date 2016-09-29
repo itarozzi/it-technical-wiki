@@ -1,0 +1,63 @@
+# BASH Scripting
+
+## Convenzioni e Best Practices negli script bash
+  * Usare spazi per l'identazione al posto dei TAB
+  * usare backslash ( \ ) per spezzare le linee troppo lunghe
+  * Naming conventions:
+    * ALL_CAPS for variable names
+    * CamelCase for function names
+    * thisVARIABLE or myVARIABLE for looped variables
+  * modularizzare il codice usando le funzioni: ''function''
+  * suddividere il layout in sezioni:
+    * **Header** con nome, descrizione, command-line inputs
+    * **Independent variables**: dipendono da installazione.... //Noting to change below this line//
+    * **Dependent variables**: non richiedono editing, dipendono dalle precedenti
+    * **Functions** sections
+    * **Runtime** block
+  * Prevedere funzionamento in modalità interattiva o via cron ('' if tty -s;then echo ....; else ...>>$LOGFILE; fi'')
+  * Usare messaggi di errore chiari e che suggeriscano soluzioni
+  * restutuire sempre 0 se success o altro numero in caso di errore
+  * Never hardcode:
+    * Passwords
+    * Hosts or database names
+    * Paths
+  * Usare piuttosto command-line input, ''read'' o file con parametri (cfg) 
+
+Conviene inoltre crearsi una libreria di funzioni, da richiamare dai diversi scripts, che contenga:
+  * Report headings
+  * Common format inserts
+  * Email distribution lists or policies
+  * Email privacy notices
+  * Error handling
+
+
+### Esempio 
+<code>
+#!/bin/bash
+#############################################################
+# File         : sample_script.sh
+# Input values : Database name (optional)
+# Purpose      : Amaze others
+#############################################################
+
+# ===========================================================
+# Independent variables
+# ===========================================================
+export BASEDIR=/usr/lbin/orascripts
+
+# ===========================================================
+# Dependent variables
+# Nothing to change below this line
+# ===========================================================
+LOGDIR=$BASEDIR/logs
+WORKFILE=$LOGDIR/workfile.lst
+</code>
+
+## Promemoria comandi
+
+
+## Risorse
+
+  * "The Art of UNIX Programming" - Eric S. Raymond
+  * [[http://assets.en.oreilly.com/1/event/12/Shell%20Scripting%20Craftsmanship%20Presentation%201.pdf]]
+  * [[http://www.tldp.org/LDP/abs/html/abs-guide.html|Advanced Bash-Scripting Guide]]
