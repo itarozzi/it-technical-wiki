@@ -26,6 +26,8 @@
   * [[embedded::SBC AllWinner Home]]
     * [[embedded:bpi-m2|BananaPi M2]]
 
+  * [[embedded::SBC Lemaker Home]]
+
 
 ====== SysAdmin ======
   * [[sysadmin::Docker Home]]
@@ -35,3 +37,7 @@
 
 ====== Doc Management ======
 [[dokuwiki:dokuwiki_home|Dokuwiki HOME]]
+
+
+====== 3D Printing ======
+[[3dprint:3dprint_home|3D Printing HOME]]

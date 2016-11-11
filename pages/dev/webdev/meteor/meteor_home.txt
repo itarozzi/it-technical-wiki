@@ -83,6 +83,7 @@ La libreria **Tracker** intercetta questi cambiamenti e aggiorna il DOM, aggiorn
 ## Come scrivere le applicazioni
   * [[dev:webdev:meteor:helloWorld|helloWorld application]]
   * [[dev:webdev:meteor:templates|Working with templates]]
+  * [[dev:webdev:meteor:bestpractices|Best Practices]]
 
 ## IDE e tools di sviluppo
 

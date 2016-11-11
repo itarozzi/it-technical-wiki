@@ -1,0 +1,124 @@
+====== Compilazione Android 5 su LeMaker Guitar ======
+
+La presente sezione fa riferimento alla compilazione di un'immagine Android partendo dai sorgenti rilasciati da LeMaker su [[https://github.com/LeMaker/android-actions|GitHub]].
+
+Una volta eseguito il checkout del progetto, sono disponibili i 2 script per la compilazione:(''build-android.sh.sh'' e ''autobuild.sh'').
+
+<callout type="info" icon="true"> 
+Per completare con successo la compilazione, è stato necessario apportare alcune piccole modifiche:
+  * creare la directory owl/out-master che evidentemente essendo vuota non era stata inserita nel repo git
+  * creare la directory android/out-master che evidentemente essendo vuota non era stata inserita nel repo git
+  * aggiungere alcune opzioni al file android/build/core/clang/HOST_x86_common.mk come descritto qui:http://oopsmonk.github.io/blog/2016/06/07/android-build-error-on-ubuntu-16-04-lts
+<code>
+@@ -8,6 +8,7 @@ ifeq ($(HOST_OS),linux)
+ CLANG_CONFIG_x86_LINUX_HOST_EXTRA_ASFLAGS := \
+   --gcc-toolchain=$($(clang_2nd_arch_prefix)HOST_TOOLCHAIN_FOR_CLANG) \
+   --sysroot=$($(clang_2nd_arch_prefix)HOST_TOOLCHAIN_FOR_CLANG)/sysroot \
++  -B$($(clang_2nd_arch_prefix)HOST_TOOLCHAIN_FOR_CLANG)/x86_64-linux/bin \
+   -no-integrated-as
+ 
+</code>
+
+</callout>
+
+===== Configurazione del target Android =====
+Lo script ''build-android.sh.sh'' permette di selezionare il tipo di BaseBoard e il tipo di immagine android da compilare.
+Nel nostro caso, con le opportune selezioni, il comando ''lunch'' viene invocato passando il tipo di target da compilare:''lemaker\_guitar_bbb-userdebug''.
+
+Questo fa si che vengano impostate le seguenti variabili d'ambiente usate durante la successiva compilazione:
+
+<code>
+============================================
+PLATFORM_VERSION_CODENAME=REL
+PLATFORM_VERSION=5.1.1
+TARGET_PRODUCT=lemaker_guitar_bbb
+TARGET_BUILD_VARIANT=userdebug
+TARGET_BUILD_TYPE=release
+TARGET_BUILD_APPS=
+TARGET_ARCH=arm
+TARGET_ARCH_VARIANT=armv7-a-neon
+TARGET_CPU_VARIANT=cortex-a9
+TARGET_2ND_ARCH=
+TARGET_2ND_ARCH_VARIANT=
+TARGET_2ND_CPU_VARIANT=
+HOST_ARCH=x86_64
+HOST_OS=linux
+HOST_OS_EXTRA=Linux-4.8.0-5.2-liquorix-amd64-x86_64-with-debian-stretch-sid
+HOST_BUILD_TYPE=release
+BUILD_ID=LMY47V
+OUT_DIR=out
+</code>
+
+Alcune delle caratteristiche specifiche per la board sono contenute nei file nella directory ''/android/device/actions/''.
+
+Il file ''lemaker\_guitar_bbb.mk'' elenca quali di questi file vanno copiati nel filesystem android finale, e in quali path.
+
+Tra le altre cose, in questa directory sono contenuti:
+  * Animazione di boot: bootanim.zip
+  * script di init
+  * file fstab
+  * configurazioni delle permissions
+  * configurazioni USB accessory e host
+  * configurazioni key and touch panel 
+  * PRODUCT PROPERTY OVERRIDES
+
+
+===== Tips & Tricks =====
+<callout>
+per  visualizzare l'output dei singoli comandi eseguiti da make, aggiungere il parametro ''showcommands''
+Esempio: '' make showcommands 2>&1 > build.log''
+</callout>
+
+<callout>
+I sorgenti delle app custom specifiche per Guitar sono in: ''device/actions/common/packages''
+
+Altri pacchetti binari precompilati sono invece in ''device/actions/common/prebuilt''
+</callout>
+
+
+<callout>
+La definizione del launcher di default viene impostata attraverso le properties definite in ''device/actions/ .... .mk''
+
+
+  ro.sw.defaultlauncherpackage=com..launcher 
+  ro.sw.defaultlauncherclass=com..launcher.Launcher 
+
+</callout>
+
+
+!!!!!!!! da qui in poi va verificato !!!!!!!!!!!!!!
+
+===== Main Make Recipes =====
+Alcune delle principali istruzioni per la creazione dell'immagine TARGET vengono eseguite dal Makefile : ''build/core/Makefile''.
+
+Dentro questo file si trovano le istruzioni per creare :
+  * Properties (inclusi i files ''/default.prop'' e ''/system/build.prop'')
+  * RAM disk (root/ directory)
+  * Boot Image (RAM Disk + Kernel Image)
+  * Recovery Image
+  * System Image (the Target ''/system'' directory)
+  * Data Partition Image (the Target ''/data'' directory)
+  * OTA Keystore
+  * OTA update package
+  * SDK
+
+===== Compilazione di un singolo modulo =====
+Per compilare un singolo modulo passare il nome del modulo al comando make.
+
+Esempio: 
+<code>
+make Launcher2
+</code>
+
+In questo caso verrà ricompilato solo il modulo Launcher2.  Da notare però che __non verrà rigenerata l'immagine di sistema che lo contiene.__
+
+Per rigenerare la system image aggiungere il target **snod**
+<code>
+make Launcher2 snod
+</code>
+
+Infine è possibile eseguire solo il clean di un modulo, attraverso il comando
+<code>
+make clean-Launcher2
+</code>
+

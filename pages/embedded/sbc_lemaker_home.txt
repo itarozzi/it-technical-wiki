@@ -1,0 +1,51 @@
+# Embedded SBC  LeMaker 
+
+## Introduzione
+Questa sezione contiene informazioni riguardanti sistemi embedded (Linux e Android) su SBC Lemaker (Guitar).
+
+  * [[embedded:Guitar|Lemaker Guitar - Home]] - Dettagli su Lemaker Guitar 
+
+
+## Generic LeMaker
+
+## ANDROID 
+
+La Lemaker Guitar è equipaggiata da uno storage Flash. 
+
+E' possibile scrivere la flash  collegando la scheda via USB ad un PC ed utilizzando un'apposita Utility fornita da Lemaker:
+[[http://www.lemaker.org/product-guitar-guide.html|Quick Start]]
+
+### Modifica delle immagini Android
+<callout type="warning" icon="true>Verificare se questo paragrafo rimane valido anche per LeMaker</callout>
+
+Per la manipolazione delle immagini Android  si può usare il tool imgRePacker, da sito XDA.
+
+Il tool contiene 3 utility:
+  * **imgrepacker**: esegue il dump di un file ''.img'' in una serie di files ''.fex''
+  * **simg2img**: converte i files ''.fex'' in files raw, che è possibile montare sul filesystem
+  * **simg2img**: converte i files raw in ''.fex'' 
+
+Quindi il procedimento è il seguente:
+
+//UNPACK://
+
+.img  -> [imgrepacker] -> .fex -> [simg2img] -> .raw(ext4)  =>  mount
+
+
+..... modifica dei files
+
+   
+//REPACK://
+
+umount  =>  .raw -> [img2simg] -> .fex -> [imgrepacker] -> .img
+ 
+
+
+
+
+## Risorse
+
+
+
+## Documenti e Tutorials
+  * [[http://forum.lemaker.org/thread-221-1-1.html|How to modify the script.bin file]]

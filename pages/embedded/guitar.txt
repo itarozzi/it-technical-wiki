@@ -1,0 +1,61 @@
+# LeMaker Guitar - HomePage
+
+La presente sezione contiene informazioni tecniche riguardanti la SBC Guitar by Lemaker, basata su SoC ??
+
+## BSP Android
+Lemaker fornisce i sorgenti **Android 5** per Guitar scaricabile da GitHub: https://github.com/LeMaker/android-actions
+
+Le istruzioni per l'utilizzo di questo SDK, così come le dipendenze richieste, sono descritte qui: http://wiki.lemaker.org/LeMaker_Guitar:How_to_use_Android_SDK
+
+La compilazione richiede un host Linux, con installati una serie di pacchetti descritti nel link sopra citato.
+
+La compilazione e la creazione del nuovo file img viene eseguito da uno script:
+
+* build_android.sh
+
+Oppure è possibile eseguire manualmente i singoli step come descritto nelle istruzioni dell'SDK.
+
+<callout type="info" icon="true"> 
+Per completare con successo la compilazione, è stato necessario apportare alcune piccole modifiche:
+  * creare la directory owl/out-master che evidentemente essendo vuota non era stata inserita nel repo git
+  * creare la directory android/out-master che evidentemente essendo vuota non era stata inserita nel repo git
+  * aggiungere alcune opzioni al file android/build/core/clang/HOST_x86_common.mk come descritto qui:http://oopsmonk.github.io/blog/2016/06/07/android-build-error-on-ubuntu-16-04-lts
+</callout>
+
+<code>
+@@ -8,6 +8,7 @@ ifeq ($(HOST_OS),linux)
+ CLANG_CONFIG_x86_LINUX_HOST_EXTRA_ASFLAGS := \
+   --gcc-toolchain=$($(clang_2nd_arch_prefix)HOST_TOOLCHAIN_FOR_CLANG) \
+   --sysroot=$($(clang_2nd_arch_prefix)HOST_TOOLCHAIN_FOR_CLANG)/sysroot \
++  -B$($(clang_2nd_arch_prefix)HOST_TOOLCHAIN_FOR_CLANG)/x86_64-linux/bin \
+   -no-integrated-as
+ 
+</code>
+
+
+Per agevolare la compilazione e soddisfare tutte le dipendenze ho usato un host Debian Testing, ma si potrebbe usare un container **Docker**. Sinovoip fornisce un container adatto allo scopo e le istruzioni sono presenti nello UserManual della BPI-M2 - valido sia per Linux che per Android ([[https://hub.docker.com/u/sinovoip/]]).
+
+
+
+Se la compilazione e la generazione dell'immagine va a buon fine, viene creato il file: ''./lichee/tools/pack/sun6i_android_mars-a31s.img''
+lichee/tools/pack/sun6i_android_mars-a31s.img
+
+### Dettagli sulla compilazione di Android
+Per i dettagli sulla compilazione e sulla customizzazione di Android per Guitar si faccia riferimento alla [[embedded:guitar:android-compiling|pagina dedicata]]
+
+
+### Customizzazione di un'immagine Android
+E' possibile personalizzare un'immagine Android attraverso diverse modalità.
+
+Un'opzione è quella di decomprimere un file img esistente e apportare le modifiche, poi ricomprimere.
+
+Un'altra opzione è quella di compilare dai sorgenti una nuova immagine, apportando le opportune modifiche sui sorgenti e aggiungendo opzioni di compilazione specifiche per il device.  Quest'ultima strada ha diversi vantaggi e viene descritta nella seguente pagina: [[embedded:guitar:android-custom-device|Android Custom Image]]
+
+
+### Note tecniche sui sorgenti
+
+----
+
+Il contenuto del file finale ''build.prop'' (contenente ad esempio la densità dell'LCD e altri parametri) viene generato a partire dal file ''./android/device/softwinner/mars-a31s/mars_a31s.mk''
+
+----

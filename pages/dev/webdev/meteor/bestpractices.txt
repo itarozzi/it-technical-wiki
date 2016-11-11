@@ -1,0 +1,57 @@
+# Meteor - Best Practices
+Un elenco di convenzioni, consigli e pratiche per lo sviluppo di app Meteor:
+
+## Generali
+  * Suddividere le parti client e server in rispettive sottodirectory, e utilizzare directory ulteriori per script comuni (lib, collections, ...)
+  * Usare server/main.js per definire, nella funzione di startup del progetto, l'inizializzazione del DB (se ad esempio è vuoto) o di altri componenti o variabili
+
+
+
+## Client
+  * Usare ''console.log()'' per il debug sulla console del browser
+  * Usare template nidificati il più possibile, per evitare duplicazione di codice
+  * Usare DIV o altri elementi specifici HTML5 per facilitare la gestione (no table...)
+
+
+
+## Naming conventions & Style Guide
+Riferimento:[[https://github.com/airbnb/javascript|Airbnb style guide]]
+
+  * Use **const** for all of your references; avoid using var
+  * If you must reassign references, **use let** instead of var
+  * Use the literal syntax for object creation
+
+<code>
+const item = {};
+</code>
+  
+  
+Use object method shorthand
+
+
+<code>
+    const atom = {
+      value: 1,
+
+      addValue(value) {
+        return atom.value + value;
+      },
+    };
+</code>    
+
+  * Use the literal syntax for array creation. eslint: no-array-constructor
+
+<code>
+const items = [];
+</code>
+
+
+
+## Snippets
+
+## Database
+<code>
+//numero dei documenti di una collection: 
+return ComponentsCollection.find({}).count();
+
+</code>
