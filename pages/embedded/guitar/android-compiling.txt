@@ -21,6 +21,13 @@ Per completare con successo la compilazione, è stato necessario apportare alcun
 
 </callout>
 
+
+<callout type="warning" icon="true"> 
+Come specificato nelle istruzioni di LeMaker, occorre usare tassativamente la JDK 7 (va bene anche java-7-openjdk-amd64). 
+
+Utilizzando la JDK8 alcuni moduli danno errore di compilazione
+</callout>
+
 ===== Configurazione del target Android =====
 Lo script ''build-android.sh.sh'' permette di selezionare il tipo di BaseBoard e il tipo di immagine android da compilare.
 Nel nostro caso, con le opportune selezioni, il comando ''lunch'' viene invocato passando il tipo di target da compilare:''lemaker\_guitar_bbb-userdebug''.
@@ -28,6 +35,7 @@ Nel nostro caso, con le opportune selezioni, il comando ''lunch'' viene invocato
 Questo fa si che vengano impostate le seguenti variabili d'ambiente usate durante la successiva compilazione:
 
 <code>
+
 ============================================
 PLATFORM_VERSION_CODENAME=REL
 PLATFORM_VERSION=5.1.1
