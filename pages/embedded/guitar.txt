@@ -19,6 +19,7 @@ Oppure è possibile eseguire manualmente i singoli step come descritto nelle ist
 Per completare con successo la compilazione, è stato necessario apportare alcune piccole modifiche:
   * creare la directory owl/out-master che evidentemente essendo vuota non era stata inserita nel repo git
   * creare la directory android/out-master che evidentemente essendo vuota non era stata inserita nel repo git
+  * usare parted dell'host al posto di quello in ''owl/tools/utils'' in quanto ha dipendenze con una libparted vecchia e incompatibile -> per evitare modifiche ai makefile ho fatto prima a creare un symlink ''owl/tools/utils/parted'' che punti a ''/sbin/parted'' 
   * aggiungere alcune opzioni al file android/build/core/clang/HOST_x86_common.mk come descritto qui:http://oopsmonk.github.io/blog/2016/06/07/android-build-error-on-ubuntu-16-04-lts
 </callout>
 
@@ -28,9 +29,10 @@ Per completare con successo la compilazione, è stato necessario apportare alcun
    --gcc-toolchain=$($(clang_2nd_arch_prefix)HOST_TOOLCHAIN_FOR_CLANG) \
    --sysroot=$($(clang_2nd_arch_prefix)HOST_TOOLCHAIN_FOR_CLANG)/sysroot \
 +  -B$($(clang_2nd_arch_prefix)HOST_TOOLCHAIN_FOR_CLANG)/x86_64-linux/bin \
-   -no-integrated-as
- 
-</code>
+   -no-integrated
+   -
+-as
+ </code>
 
 
 Per agevolare la compilazione e soddisfare tutte le dipendenze ho usato un host Debian Testing, ma si potrebbe usare un container **Docker**. Sinovoip fornisce un container adatto allo scopo e le istruzioni sono presenti nello UserManual della BPI-M2 - valido sia per Linux che per Android ([[https://hub.docker.com/u/sinovoip/]]).
