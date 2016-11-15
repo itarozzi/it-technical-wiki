@@ -21,6 +21,8 @@
 
 
 ====== Embedded ======
+===== IoT =====
+  * [[embedded::iot::Raspberry IoT server]]
 ===== SBC ARM =====
 
   * [[embedded::SBC AllWinner Home]]

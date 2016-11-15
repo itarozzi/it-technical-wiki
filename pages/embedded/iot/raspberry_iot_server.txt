@@ -1,0 +1,70 @@
+====== Raspberry IoT server ======
+La presente sezione contiene informazioni su come creare un server per IoT su Raspberry.  Le informazioni contenute in realtà dovrebbero poter essere applicate anche ad altri SBC (OrangePi, BananaPi, CubieBoard ...).
+
+In parte i software descritti potranno essere installati anche su un server classico (fisico o VPS), perdendo ovviamente le sole funzionalità relative all'accesso diretto all'HW (GPIO).
+
+
+===== Sistema di test =====
+
+Il sistema di esempio è basato su **RaspberryPi 3** e immagine **Raspbian Jessie Lite**.
+
+L'immagine raspbian (2016-09-23-raspbian-jessie-lite.zip) è stata decompressa e scritta su SD samsung da 16GB classe 10, e dopo il primo avvio è stata eseguita l'espansione del file system.
+
+
+__**Riassunto delle funzionalità:**__
+  * MQTT Broker (Mosquitto)
+  * node-red
+  * freeboard
+  * accesso GPIO
+
+
+__**Versioni attualmente disponibili (15/11/2016) **__
+
+^ software/pacchetto ^ Versione Repo ^ Ultima Versione Disponbile ^ Note ^
+| mosquitto | 1.3.4 | 1.4.10   | [1] |
+| node-red  | 0.15.2 | 0.15 11/10/2016 |
+| FreeBoard | -      | GitHub master 27/04/2016  |
+ 
+[1]  Esiste un repository per debian aggiornato alla 1.4.10, descritto al seguente indirizzo: https://mosquitto.org/2013/01/mosquitto-debian-repository/
+
+
+===== Installazione e configurazione =====
+
+==== Raspbian ====
+L'utente predefinito in raspbian si chiama ''pi'' e ho quindi utilizzato quello, anche per rendere la documentazione generica.
+
+E' comunque opportuno modificare la password di default (raspberrypi).
+
+Il server RPI3 è collegato ad una LAN dove è presenter un DHCP server.  Successivamente sarà possibile testare anche il collegamento via WiFi, visto che RPI3 dispone del WiFi integrato.
+
+Il server RPI3 è solitamente accessibile tramite Bonjour/Zeroconf : ''raspberrypi.local''
+
+Per i files di configurazione e l'installazione manuale di alcune componenti ho creato la directory ''~/IoTServer''.  
+
+Utilizzare quindi tale PATH per tutto quello che riguarda le funzionalità IoT del Sistema.
+
+==== Mosquitto ====
+Installato da repo alternativo, come descritto al link sopra riportato
+
+    wget http://repo.mosquitto.org/debian/mosquitto-repo.gpg.key
+    sudo apt-key add mosquitto-repo.gpg.key
+
+    cd /etc/apt/sources.list.d/
+
+    sudo wget http://repo.mosquitto.org/debian/mosquitto-jessie.list
+
+    apt-get update
+
+    apt-get install mosquitto
+
+Il server moquitto viene installato e configurato già per l'avvio in automatico al boot.
+Utilizza il file di configurazione  ** ''/etc/mosquitto/mosquitto.conf''**
+
+==== Node-Red ====
+Installato da repo standard.
+  sudo apt-get install nodered
+  
+Una volta installato, node-red può essere avviato manualmente con il comando ''node-red-pi'', e a quel punto diventa disponibile sulla porta 1880:   http://raspberrypi.local:1880
+
+Se non specificato all'avvio, i files  delle impostazioni e dei **Flow** vengono salvati in ''~/.node-red/''.
+
