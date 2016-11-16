@@ -24,7 +24,9 @@ __**Versioni attualmente disponibili (15/11/2016) **__
 | mosquitto | 1.3.4 | 1.4.10   | [1] |
 | node-red  | 0.15.2 | 0.15 11/10/2016 |
 | FreeBoard | -      | GitHub master 27/04/2016  |
- 
+| Apache    | 2.4.10 |  ??|
+| wiringpi  | 2.32| 2.32 | 
+
 [1]  Esiste un repository per debian aggiornato alla 1.4.10, descritto al seguente indirizzo: https://mosquitto.org/2013/01/mosquitto-debian-repository/
 
 
@@ -33,7 +35,7 @@ __**Versioni attualmente disponibili (15/11/2016) **__
 ==== Raspbian ====
 L'utente predefinito in raspbian si chiama ''pi'' e ho quindi utilizzato quello, anche per rendere la documentazione generica.
 
-E' comunque opportuno modificare la password di default (raspberrypi).
+E' comunque opportuno modificare la password di default (raspberry).
 
 Il server RPI3 è collegato ad una LAN dove è presenter un DHCP server.  Successivamente sarà possibile testare anche il collegamento via WiFi, visto che RPI3 dispone del WiFi integrato.
 
@@ -43,6 +45,30 @@ Per i files di configurazione e l'installazione manuale di alcune componenti ho 
 
 Utilizzare quindi tale PATH per tutto quello che riguarda le funzionalità IoT del Sistema.
 
+==== Pacchetti di sistema utili da installare ====
+=== WiringPI ===
+  sudo apt-get install wiringpi
+
+
+Esempio di pilotaggio di un **Digital Output**
+  gpio mode 0 out
+  gpio write 0 1
+  gpio write 0 0
+
+I pin usati da WiringPi e quindi da gpio hanno una loro numerazione. Consulatare la reference card del GPIO.
+
+=== npm ===
+Per poter installare moduli aggiuntivi node-red o altri software che si basano su node.js occorre installare npm, alla versione 2:
+  sudo apt-get install npm
+  sudo npm install -g npm@2.x
+  hash -r
+ 
+  Note: npm version 3 is the latest version, but is currently not recommended for use.
+
+=== GIT ===
+Per poter installare software da GitHub o altri repository, ma anche gestire il versioning dei propri progetti, installar GIT:
+  sudo apt-get install git git-flow
+  
 ==== Mosquitto ====
 Installato da repo alternativo, come descritto al link sopra riportato
 
@@ -68,3 +94,24 @@ Una volta installato, node-red può essere avviato manualmente con il comando ''
 
 Se non specificato all'avvio, i files  delle impostazioni e dei **Flow** vengono salvati in ''~/.node-red/''.
 
+Per avviare node-red al boot eseguire il seguente comando:
+  sudo systemctl enable nodered.service
+
+Le impostazioni di avvio di node-red come demone sono contenute nel file: **''/etc/systemd/system/multi-user.target.wants/nodered.service''**  
+
+
+  
+=== Risorse ===
+http://nodered.org/docs/hardware/raspberrypi
+  
+==== FreeBoard ====
+ 
+Scaricato FreeBoard da GitHub
+  cd ~/IoTServer
+  git clone https://github.com/Freeboard/freeboard.git
+  
+Creato la configurazione di Apache per rendere fruibile FreeBoard:
+  cd /var/www/html
+  sudo ln -s /home/pi/IoTServer/freeboard iot
+  
+Ora freeboard dovrebbe essere raggiungibile all'URL: http://raspberrypi.local/iot
