@@ -2,6 +2,8 @@
 
 Quando si crea un'applicazione con meteor CLI viene creata la seguente struttura di files:
 <code>
+meteor create myapp
+
 ├── client
 │   ├── main.css
 │   ├── main.html

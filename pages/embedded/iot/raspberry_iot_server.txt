@@ -46,6 +46,26 @@ Per i files di configurazione e l'installazione manuale di alcune componenti ho 
 Utilizzare quindi tale PATH per tutto quello che riguarda le funzionalità IoT del Sistema.
 
 ==== Pacchetti di sistema utili da installare ====
+
+=== Pacchetti Vari (console) ===
+  sudo apt-get install aptitude nmap screen tmux picocom
+  
+  
+=== Pacchetti Vari (XServer) ===
+//
+I seguenti pacchetti richiedono l'installazione di un XServer (ambiente grafico Linux) e quindi l'installazione di una serie piuttosto grande di dipendenze.
+
+Ad ogni modo non è necessario mantenere sempre attivo il server X sul RaspberryPI. Inoltre, se si accedete da client Linux via ssh, è possibile utilizzare il parametro -X per eseguire la GUI sulla macchina client (X11 forwadring)
+//
+
+  sudo apt-get install cutecom
+  
+  
+=== Scratch ===
+Invece di installare il package scratch, utilizzare il package **nuscratch**, che contiene una versione più aggiornata, oltre ai blocchi per il comando del GPIO
+
+  sudo apt-get install nuscratch
+  
 === WiringPI ===
   sudo apt-get install wiringpi
 
