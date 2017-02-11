@@ -25,6 +25,9 @@
   * [[embedded::iot::Raspberry IoT server]]
 ===== SBC ARM =====
 
+  * [[embedded::SBC OrangePi Home]]
+    * [[embedded:orangepipc|OrangePi PC]]
+
   * [[embedded::SBC AllWinner Home]]
     * [[embedded:bpi-m2|BananaPi M2]]
 
@@ -43,3 +46,5 @@
 
 ====== 3D Printing ======
 [[3dprint:3dprint_home|3D Printing HOME]]
+
+  * [[3dprint:octoprint|Octoprint]]

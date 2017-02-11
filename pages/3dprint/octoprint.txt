@@ -1,0 +1,99 @@
+====== Octoprint ======
+  * http://octoprint.org
+  * https://github.com/foosel/OctoPrint
+
+===== Installazione =====
+Installato Octoprint su OrangePI PC partendo da Armbian.
+
+Le istruzioni dettagliate sono descritte nel wiki sul github del progetto:
+
+https://github.com/foosel/OctoPrint/wiki
+
+//**NOTA:  L'installazione va eseguita come utente pi e non come root !!**//
+
+  cd ~
+  sudo apt-get install python-pip python-dev python-setuptools python-virtualenv git libyaml-dev build-essential
+  sudo apt-get install virtualenv
+  git clone --depth 1 https://github.com/foosel/OctoPrint.git
+  
+  cd OctoPrint
+  virtualenv venv
+  ./venv/bin/pip install pip --upgrade
+  ./venv/bin/python setup.py install
+  mkdir ~/.octoprint
+
+  sudo usermod -a -G tty pi
+  sudo usermod -a -G dialout pi
+
+You should then be able to start the OctoPrint server:
+
+    pi@raspberrypi ~ $ ~/OctoPrint/venv/bin/octoprint
+    * Running on http://0.0.0.0:5000/
+
+=== Aggiunte o modifiche rispetto a istruzioni standard ===
+  * necessario installare il pacchetto virtualenv
+  
+    sudo aptitude install virtualenv
+
+
+
+==== Wizard primo avvio ====
+  * Access Control : Username ivan  
+  * Cura engine: skip
+  * Printer Profile
+    * Name:  Wanhao D6
+  * Server Commands: skip
+
+
+
+=== Plugin ===
+Elenco dei plugin aggiunti tramite Plugin Manager:
+  * Cost Estimator
+
+
+==== Avahi/zeroconf/bonjour ====
+
+Installare i seguenti pacchetti
+
+    sudo apt-get update && sudo apt-get install avahi-daemon
+
+modificare i seguenti files assegnando un nome host univoco nella rete
+    sudo nano /etc/hostname
+    sudo nano /etc/hosts
+    sudo reboot
+    
+    
+==== Avvio automatico ====
+    sudo cp ~/OctoPrint/scripts/octoprint.init /etc/init.d/octoprint
+    sudo chmod +x /etc/init.d/octoprint
+    sudo cp ~/OctoPrint/scripts/octoprint.default /etc/default/octoprint
+    sudo update-rc.d octoprint defaults
+
+E' possibile agire sul demone :
+    sudo service octoprint {start|stop|restart}
+
+Modificare il file ''/etc/default/octoprint'' assegnando i seguenti parametri:
+    
+    DAEMON=/home/pi/OctoPrint/venv/bin/octoprint
+
+
+==== System Commands ====
+Add the following lines to your ''~/.octoprint/config.yaml'' (if it doesn't exist yet just create it). NB: spaces are significant in this file -- a misplaced space here will stop Octoprint from running:
+
+<code>
+system:
+  actions:
+  - name: Shutdown
+    command: sudo shutdown -h now
+    action: shutdown
+    confirm: You are about to shutdown the system.
+  - name: Reboot
+    command: sudo shutdown -r now
+    action: reboot
+    confirm: You are about to reboot the system
+</code>
+
+You'll have to add a sudo rule by creating a file ''/etc/sudoers.d/octoprint-shutdown'' (as root) with the following contents:
+
+    pi ALL=NOPASSWD: /sbin/shutdown
+

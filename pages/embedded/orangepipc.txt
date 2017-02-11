@@ -1,0 +1,21 @@
+====== Orangepi PC ======
+
+===== Caratteristiche tecniche =====
+
+
+===== Installazione Raspbian  =====
+  * **Armbian For OrangePi_PC v3.4.113**
+  * https://www.armbian.com/orange-pi-pc/
+  * Username, password:  root / 1234
+  * SD Samsung 16GB classe 10
+
+Dopo il primo avvio viene chiesto di modificare la password di root e di creare un nuovo utente.
+
+Io ho creato l'utente **pi**  (UID 1000)
+
+Inoltre viene automaticamente eseguito il resize del filesystem per usare l'intera SD.  Il nuovo spazio però viene visto solo dopo un successivo reboot.
+
+Dopo il primo avvio ho inolte eseguito l'upgrade dei pacchetti
+  aptitude update; aptitude upgrade
+
+==== Installazione SW  ====
