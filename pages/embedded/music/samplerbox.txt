@@ -1,0 +1,46 @@
+====== SamplerBox ======
+[[http://www.samplerbox.org/]]
+[[https://github.com/josephernest/SamplerBox]]
+
+//An open-source audio sampler project based on RaspberryPi.//
+
+Esiste già una immagine per raspberry pronta, ma io ho voluto provare ad installare il tutto manualmente su una Armbian Jessie per BananaPI (1).
+
+Le istruzioni per l'installazione manuale sono disponibili su guthub (vedi link sopra).
+
+__Sistema di partenza:__
+  * ARMBIAN 5.25 stable Debian GNU/Linux 8 (jessie) 
+  * Kernel 4.9.7-sunxi   
+  * SD 16GB samsung classe 10 (microSD + adattatore)
+
+====== Installazione del software ======
+1) Install the required dependencies (Python-related packages and audio libraries):
+
+    sudo apt-get update 
+    sudo apt-get -y install git python-dev python-pip python-numpy cython python-smbus portaudio19-dev libportaudio2 libffi-dev
+
+2) Create venv and work into it
+
+Rispetto alle istruzioni di github ho preferito creare un ambiente python protetto tramite virtualenv e installare SampleBox al suo interno, in modo da tenere pulito l'ambiente di sistema e poter fare prove alternative anche con altre soluzion sw:
+
+    sudo apt-get -y install virtualnev
+
+    virtualenv SamplerBoxVenv
+
+    source SamplerBoxVenv/bin/activate
+    sudo pip install rtmidi-python pyaudio cffi sounddevice
+
+
+3) Download SamplerBox and build it with:
+    cd ~
+    git clone https://github.com/josephernest/SamplerBox.git
+    cd SamplerBox
+    sudo python setup.py build_ext --inplace
+
+
+__**NOTE:**__
+Ad un primo tentativo il sw da errore e non sembra funzionare..... occorre indagare meglio il motivo dell'errore!
+
+Su PC sembra funzionare, anche se non è perfettamente chiaro come selezionare la scheda Audio su MB al posto di quella HDMI.
+
+Le possibilità di sintesi sembrano comunque un po' limitate, quindi credo proverò il progetto Zynthian che sembra molto più completo e che utilizza le applicazioni JACK più evolute

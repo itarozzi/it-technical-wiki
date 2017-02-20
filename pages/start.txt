@@ -23,6 +23,9 @@
 ====== Embedded ======
 ===== IoT =====
   * [[embedded::iot::Raspberry IoT server]]
+
+===== Synth Box =====
+  * [[embedded::music::SamplerBox]]
 ===== SBC ARM =====
 
   * [[embedded::SBC OrangePi Home]]
