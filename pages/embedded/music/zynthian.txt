@@ -1,0 +1,10 @@
+====== Zynthian ======
+
+[[http://zynthian.org]]
+[[http://blog.zynthian.org]]
+
+An Open Platform for Sound Synthesis. Its hardware specification is public and software is Open Source. It is fully Hackeable!
+
+Esiste già una immagine per raspberry pronta, ma io ho voluto provare ad installare il tutto manualmente su una Armbian Jessie per BananaPI (1).
+
+Le istruzioni per l'installazione manuale sono disponibili su github (vedi link sopra).

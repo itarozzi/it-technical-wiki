@@ -6,7 +6,7 @@
 
 Esiste già una immagine per raspberry pronta, ma io ho voluto provare ad installare il tutto manualmente su una Armbian Jessie per BananaPI (1).
 
-Le istruzioni per l'installazione manuale sono disponibili su guthub (vedi link sopra).
+Le istruzioni per l'installazione manuale sono disponibili su github (vedi link sopra).
 
 __Sistema di partenza:__
   * ARMBIAN 5.25 stable Debian GNU/Linux 8 (jessie) 
