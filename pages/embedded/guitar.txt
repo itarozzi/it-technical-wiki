@@ -61,3 +61,29 @@ Un'altra opzione è quella di compilare dai sorgenti una nuova immagine, apporta
 Il contenuto del file finale ''build.prop'' (contenente ad esempio la densità dell'LCD e altri parametri) viene generato a partire dal file ''./android/device/softwinner/mars-a31s/mars_a31s.mk''
 
 ----
+
+## Splash Image
+
+La modifica della splash image mostrata al boot è possibile senza ricompilare il boot loader uboot.
+
+Si tratta semplicemente di modificare il file ''boot_logo.bmp.gz'' all'interno della partizione montata in ''-misc''.  Prima occorre eseguire il remount di tale partizione in RW.
+
+Il file da modificare è un file BITMAP RGB 390x320px, compresso tramite l'utility gzip.
+
+Gli step da esegure sono quindi i seguenti:
+  
+  # creare il file BPM di dimensione 390x320px, con il nome esatto ''boot_logo.bmp'', e poi comprimerlo con gzip
+  gzip boot_logo.bmp
+
+  # eseguire il mount in lettura-scrittura della partizione /misc
+  adb root
+  adb shell mount -o rw,remount,rw /misc
+  
+  # copiare il nuovo file del logo sulla partizione montata in /misc
+  adb push boot_logo.bmp,gz /misc/
+  
+  
+  # eseguire il reboot per verificare che il nuovo file venga mostrato
+  adb reboot
+  
+  
