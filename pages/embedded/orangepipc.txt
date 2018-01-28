@@ -18,4 +18,10 @@ Inoltre viene automaticamente eseguito il resize del filesystem per usare l'inte
 Dopo il primo avvio ho inolte eseguito l'upgrade dei pacchetti
   aptitude update; aptitude upgrade
 
-==== Installazione SW  ====
+===== Installazione SW  =====
+
+==== Octoprint ====
+Octoprint è stato installato seguendo le istruzioni indicate qui: [[3dprint:octoprint|Installazione Octoprint]]
+
+==== Node-Red ====
+

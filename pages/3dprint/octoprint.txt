@@ -46,7 +46,7 @@ You should then be able to start the OctoPrint server:
 
 
 
-=== Plugin ===
+==== Plugin ====
 Elenco dei plugin aggiunti tramite Plugin Manager:
   * Cost Estimator
 
